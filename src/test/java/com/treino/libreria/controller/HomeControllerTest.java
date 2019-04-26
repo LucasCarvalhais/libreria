@@ -11,11 +11,11 @@ public class HomeControllerTest {
 
     HomeController homeController = new HomeController();
 
-    /*@Test
+    @Test
     public void shouldShowWelcomePage() {
-        ModelMap welcome = homeController.getWelcome();
+        ModelAndView welcome = homeController.getWelcome();
 
         assertThat(welcome.getViewName(), is("welcome"));
-    }*/
+    }
 
 }
