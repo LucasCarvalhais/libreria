@@ -1,15 +1,13 @@
 package com.treino.libreria.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "book")
 public class Book {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long bookCode;
 
     @Column(columnDefinition = "text")
