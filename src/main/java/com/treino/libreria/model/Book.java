@@ -50,7 +50,7 @@ public class Book {
         return autor;
     }
 
-    public void setAutor(String autor) {
+    public void setAuthor(String autor) {
         this.autor = autor;
     }
 
@@ -60,5 +60,15 @@ public class Book {
 
     public void setEdition(int edition) {
         this.edition = edition;
+    }
+
+    @Override
+    public String toString() {
+        return "{ \"bookCode\": \"" + getBookCode() + "\"," +
+                " \"title\": \"" + getTitle() + "\"," +
+                " \"description\": \"" + getDescription() + "\"," +
+                " \"autor\": \"" + getAutor() + "\"," +
+                " \"edition\": \"" + getEdition() + "\"," +
+                "}";
     }
 }
