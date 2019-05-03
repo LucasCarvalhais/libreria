@@ -4,42 +4,32 @@ import com.treino.libreria.model.Book;
 import com.treino.libreria.repository.BookRepository;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class BookServiceTest {
+public class    BookServiceTest {
 
-    @Mock
     BookRepository bookRepository;
 
-    BookService bookService = new BookService();
+    BookService bookService;
 
     @Before
     public void setUp() {
-        initMocks(this);
+        this.bookRepository = mock(BookRepository.class);
+        this.bookService = new BookService(bookRepository);
     }
 
     @Test
     public void shouldInsertNewBook() {
-        Book book = new Book();
-        book.setTitle("Teste");
-        book.setAuthor("Lucas");
-        book.setDescription("Testando");
-        book.setEdition(1);
+        Book book = new Book(1L, "Teste", "Testando", "Lucas", 1);
 
-        bookService.save(book);
+        when(bookRepository.save(book)).thenReturn(book);
+        Book saved = bookService.save(book);
 
-        verify(bookRepository, times(1)).save(book);
+        assertThat(saved, is(book));
+        verify(bookRepository).save(book);
     }
 
 }

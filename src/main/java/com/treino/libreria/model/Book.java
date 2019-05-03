@@ -7,68 +7,46 @@ import javax.persistence.*;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long bookCode;
 
-    @Column(columnDefinition = "text")
     private String title;
-
-    @Column(columnDefinition = "text")
     private String description;
-
-    @Column(columnDefinition = "text")
-    private String autor;
-
-    @Column(columnDefinition = "number")
+    private String author;
     private int edition;
+
+    public Book() {
+    }
+
+    public Book(Long bookCode,
+                String title,
+                String description,
+                String author,
+                int edition) {
+        this.bookCode = bookCode;
+        this.title = title;
+        this.description = description;
+        this.author = author;
+        this.edition = edition;
+    }
 
     public Long getBookCode() {
         return bookCode;
-    }
-
-    public void setBookCode(Long bookCode) {
-        this.bookCode = bookCode;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAuthor(String autor) {
-        this.autor = autor;
+    public String getAuthor() {
+        return author;
     }
 
     public int getEdition() {
         return edition;
     }
 
-    public void setEdition(int edition) {
-        this.edition = edition;
-    }
-
-    @Override
-    public String toString() {
-        return "{ \"bookCode\": \"" + getBookCode() + "\"," +
-                " \"title\": \"" + getTitle() + "\"," +
-                " \"description\": \"" + getDescription() + "\"," +
-                " \"autor\": \"" + getAutor() + "\"," +
-                " \"edition\": \"" + getEdition() + "\"," +
-                "}";
-    }
 }

@@ -1,49 +1,44 @@
 package com.treino.libreria.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.treino.libreria.model.Book;
+import com.treino.libreria.service.BookService;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
 public class BookControllerTest {
 
-    @Autowired
-    MockMvc mockMvc;
+    private BookController bookController;
+    private BookService bookService;
 
-    @Autowired
-    ObjectMapper objectMapper;
+    @Before
+    public void setUp() {
+        this.bookService = mock(BookService.class);
+
+        this.bookController = new BookController(bookService);
+    }
 
     @Test
-    public void shouldReturnBookWhenCreated() throws Exception {
-        Book book = new Book();
-        book.setTitle("Test");
-        book.setAuthor("Lucas");
-        book.setDescription("Testando... hola, que tal");
-        book.setEdition(1);
+    public void shpuldReturnBookWhenSaveIt() {
+        Book book = new Book(1L, "Teste", "Testando", "Lucas", 1);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/new_book")
-            .contentType(MediaType.APPLICATION_JSON_UTF8)
-            .content(objectMapper.writeValueAsString(book))
-            .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(content().string(containsString("Test")))
-        .andExpect(content().string(containsString("Lucas")))
-        .andExpect(content().string(containsString("Testando... hola, que tal")))
-        .andExpect(content().string(containsString("1")));
+        when(bookService.save(book)).thenReturn(book);
+        Book bookResponse = this.bookController.createBook(book);
+
+        assertThat(bookResponse).isEqualTo(book);
+    }
+
+    @Test
+    public void ShouldReturnNullIfBookIsNull() {
+        Book book = null;
+
+        when(bookService.save(null)).thenReturn(null);
+        Book bookResponse = this.bookController.createBook(book);
+
+        assertThat(bookResponse).isNull();
     }
 
 }
