@@ -6,8 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class BookControllerTest {
 
@@ -23,12 +22,16 @@ public class BookControllerTest {
 
     @Test
     public void shpuldReturnBookWhenSaveIt() {
-        Book book = new Book(1L, "Teste", "Testando", "Lucas", 1);
+        Book book = new Book("Teste",
+                "Testando",
+                "Lucas",
+                1);
 
         when(bookService.save(book)).thenReturn(book);
         Book bookResponse = this.bookController.createBook(book);
 
         assertThat(bookResponse).isEqualTo(book);
+        verify(bookService).save(book);
     }
 
     @Test
@@ -39,6 +42,7 @@ public class BookControllerTest {
         Book bookResponse = this.bookController.createBook(book);
 
         assertThat(bookResponse).isNull();
+        verify(bookService);
     }
 
 }

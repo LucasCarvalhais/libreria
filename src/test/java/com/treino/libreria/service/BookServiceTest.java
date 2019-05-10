@@ -23,7 +23,10 @@ public class    BookServiceTest {
 
     @Test
     public void shouldInsertNewBook() {
-        Book book = new Book(1L, "Teste", "Testando", "Lucas", 1);
+        Book book = new Book("Teste",
+                "Testando",
+                "Lucas",
+                1);
 
         when(bookRepository.save(book)).thenReturn(book);
         Book saved = bookService.save(book);

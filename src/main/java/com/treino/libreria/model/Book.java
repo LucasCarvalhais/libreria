@@ -1,52 +1,93 @@
 package com.treino.libreria.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "book")
 public class Book {
 
     @Id
-    private Long bookCode;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_gen")
+    @SequenceGenerator(name = "book_gen",
+            sequenceName = "book_sequence",
+            initialValue = 1,
+            allocationSize = 1)
+    private Integer bookId;
 
+    @NotBlank
     private String title;
+
     private String description;
+
+    @NotBlank
     private String author;
+
     private int edition;
 
     public Book() {
     }
 
-    public Book(Long bookCode,
-                String title,
+    public Book(String title,
                 String description,
                 String author,
                 int edition) {
-        this.bookCode = bookCode;
         this.title = title;
         this.description = description;
         this.author = author;
         this.edition = edition;
     }
 
-    public Long getBookCode() {
-        return bookCode;
+    public Book(Integer bookId,
+                String title,
+                String description,
+                String author,
+                int edition) {
+        this.bookId = bookId;
+        this.title = title;
+        this.description = description;
+        this.author = author;
+        this.edition = edition;
+    }
+
+    public Integer getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getAuthor() {
         return author;
     }
 
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     public int getEdition() {
         return edition;
     }
 
+    public void setEdition(int edition) {
+        this.edition = edition;
+    }
 }
