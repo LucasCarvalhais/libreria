@@ -42,7 +42,6 @@ public class BookControllerTest {
         Book bookResponse = this.bookController.createBook(book);
 
         assertThat(bookResponse).isNull();
-        verify(bookService);
     }
 
 }
