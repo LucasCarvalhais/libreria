@@ -1,21 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>New Book</title>
+    <title>New Book Form</title>
 </head>
 <body>
-    <form action="/new_book" method="post">
-        Codigo del libro:
-        <input type="number" name="bookCode" required>
-        <br>
+    <form action="/new_book_tmp" method="post" enctype="application/json">
         Título del libro:
         <input type="text" name="title">
         <br>
         Descripción del libro:
         <input type="text" name="description">
         <br>
-        Autores del libro:
+        Autor(es) del libro:
         <input type="text" name="author">
         <br>
         Edición del libro:
