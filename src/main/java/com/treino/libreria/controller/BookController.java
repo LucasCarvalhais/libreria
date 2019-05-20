@@ -17,18 +17,8 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    // Metodo para lidar com problema de FORM_URLENCODED e JSON
-    @PostMapping(value = "/new_book_tmp")
-    public Book createBookTmp(@RequestParam String title,
-                              @RequestParam String description,
-                              @RequestParam String author,
-                              @RequestParam int edition) {
-        Book book = new Book(title, description, author, edition);
-        return bookService.save(book);
-    }
-
     @PostMapping(value = "/new_book")
-    public Book saveBook(@Valid @RequestBody Book book) {
+    public Book saveBook(@ModelAttribute Book book) {
         if (book == null) return null;
         return bookService.save(book);
     }
