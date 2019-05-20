@@ -37,7 +37,7 @@ public class  BookControllerComponentTest {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/new_book")
                     .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                    .content("title=Teste&description=Testando... Hola, que tal&author=Lucas&edition=2")
+                    .content(book.toUrlEncoded())
                     .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))

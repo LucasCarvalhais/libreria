@@ -77,4 +77,19 @@ public class Book {
     public void setEdition(int edition) {
         this.edition = edition;
     }
+
+    public String toUrlEncoded() {
+        StringBuilder urlEncoded = new StringBuilder();
+
+        urlEncoded.append("title=" + getTitle());
+        if (description != null) {
+            urlEncoded.append("&description=" + getDescription());
+        }
+        urlEncoded.append("&author=" + getAuthor());
+        if (edition > 0) {
+            urlEncoded.append("&edition=" + getEdition());
+        }
+
+        return urlEncoded.toString();
+    }
 }
