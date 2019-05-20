@@ -1,6 +1,5 @@
 package com.treino.libreria.controller;
 
-import org.apache.http.entity.ContentType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class HomeControllerComponentTest {
 
     @Test
     public void shouldShowWelcomePage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/welcome"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/bienvenido"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(content().string(containsString("<title>Bienvenido</title>")));

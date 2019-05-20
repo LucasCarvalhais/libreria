@@ -6,6 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -17,7 +20,6 @@ public class BookControllerTest {
     @Before
     public void setUp() {
         this.bookService = mock(BookService.class);
-
         this.bookController = new BookController(bookService);
     }
 
@@ -26,7 +28,7 @@ public class BookControllerTest {
         Book book = new Book("Teste", "Testando", "Lucas", 1);
 
         when(bookService.save(book)).thenReturn(book);
-        Book bookResponse = this.bookController.createBook(book);
+        Book bookResponse = this.bookController.saveBook(book);
 
         assertThat(bookResponse).isEqualTo(book);
         verify(bookService).save(book);
@@ -36,8 +38,7 @@ public class BookControllerTest {
     public void ShouldReturnNullIfBookIsNull() {
         Book book = null;
 
-        when(bookService.save(null)).thenReturn(null);
-        Book bookResponse = this.bookController.createBook(book);
+        Book bookResponse = this.bookController.saveBook(book);
 
         assertThat(bookResponse).isNull();
         verify(bookService, never()).save(book);
@@ -46,8 +47,26 @@ public class BookControllerTest {
     @Test
     public void shouldReturnThePageWithFrom() {
         ModelAndView expectedModelAndView = new ModelAndView("insertBook");
+
         ModelAndView modelAndView = bookController.getNewBookForm();
+
         assertThat(modelAndView.getViewName()).isEqualTo(expectedModelAndView.getViewName());
+    }
+
+    @Test
+    public void shouldReturnThePageWithListOfBooks() {
+        Book book1 = new Book("Teste", "Testando", "Lucas", 1);
+        Book book2 = new Book("Libro", "Este es un libro", "Jimmy", 3);
+        bookController.saveBook(book1);
+        bookController.saveBook(book2);
+
+        List<Book> expectedBooks = Arrays.asList(book1, book2);
+        when(bookService.findAll()).thenReturn(expectedBooks);
+
+        List<Book> books = bookController.getAllBooks();
+
+        assertThat(books).isEqualTo(expectedBooks);
+        verify(bookService).findAll();
     }
 
 }

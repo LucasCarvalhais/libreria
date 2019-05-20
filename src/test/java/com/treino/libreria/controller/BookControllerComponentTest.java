@@ -32,16 +32,13 @@ public class  BookControllerComponentTest {
     BookService bookService;
 
     @Test
-    public void shouldReturnBookWhenCreated() throws Exception {
-        Book book = new Book("Teste",
-                "Testando... Hola, que tal",
-                "Lucas",
-                2);
+    public void shouldReturnBookWhenItIsInserted() throws Exception {
+        Book book = new Book("Teste", "Testando... Hola, que tal", "Lucas", 2);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/new_book")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(book))
-                .accept(MediaType.APPLICATION_JSON))
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(objectMapper.writeValueAsString(book))
+                    .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().string(containsString("Teste")))
@@ -55,7 +52,15 @@ public class  BookControllerComponentTest {
     public void shouldGetTheForm() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/new_book_form"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("<title>New Book Form</title>")));
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(containsString("<title>Cadastro del libro</title>")));
+    }
+
+    @Test
+    public void shouldListAllAvailableBooks() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/books"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
 }

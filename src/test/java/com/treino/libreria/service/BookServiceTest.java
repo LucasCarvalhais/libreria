@@ -25,14 +25,14 @@ public class    BookServiceTest {
     }
 
     @Test
-    public void shouldInsertNewBook() {
-        Book book = new Book("Teste", "Testando", "Lucas", 1);
+    public void shouldSaveNewBook() {
+        Book bookInput = new Book("Teste", "Testando", "Lucas", 1);
 
-        when(bookRepository.save(book)).thenReturn(book);
-        Book saved = bookService.save(book);
+        when(bookRepository.save(bookInput)).thenReturn(bookInput);
+        Book bookOutput = bookService.save(bookInput);
 
-        assertThat(saved, is(book));
-        verify(bookRepository).save(book);
+        assertThat(bookOutput, is(bookInput));
+        verify(bookRepository).save(bookInput);
     }
 
     @Test

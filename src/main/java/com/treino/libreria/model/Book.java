@@ -2,15 +2,14 @@ package com.treino.libreria.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "book")
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_gen")
-    @SequenceGenerator(name = "book_gen",
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_generator")
+    @SequenceGenerator(name = "book_generator",
             sequenceName = "book_sequence",
             initialValue = 1,
             allocationSize = 1)
@@ -33,18 +32,6 @@ public class Book {
                 String description,
                 String author,
                 int edition) {
-        this.title = title;
-        this.description = description;
-        this.author = author;
-        this.edition = edition;
-    }
-
-    public Book(Integer bookId,
-                String title,
-                String description,
-                String author,
-                int edition) {
-        this.bookId = bookId;
         this.title = title;
         this.description = description;
         this.author = author;
