@@ -92,4 +92,16 @@ public class Book {
 
         return urlEncoded.toString();
     }
+
+    public void updateValues(Book newBook) {
+        this.title = newBook.title;
+        this.author = newBook.author;
+        this.description = newBook.description;
+        this.edition = newBook.edition;
+    }
+
+    @Override
+    public String toString() {
+        return title + " | " + author + " | " + description + " | " + edition;
+    }
 }

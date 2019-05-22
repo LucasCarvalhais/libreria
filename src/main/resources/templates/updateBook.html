@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Atualización del libro</title>
+</head>
+<body>
+    <p>Para ver los libros ya cadastrados, clica <a href="\books">aquí</a>.</p>
+    <br>
+    <form action="/update_book" method="post">
+        Código del libro:
+        <input type="number" name="id">
+        <br>
+        Título del libro:
+        <input type="text" name="title">
+        <br>
+        Descripción del libro:
+        <input type="text" name="description">
+        <br>
+        Autor(es) del libro:
+        <input type="text" name="author">
+        <br>
+        Edición del libro:
+        <input type="number" name="edition">
+        <br>
+        <input type="submit" value="Atualizar">
+    </form>
+</body>
+</html>

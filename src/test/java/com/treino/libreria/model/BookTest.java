@@ -24,4 +24,17 @@ public class BookTest {
         assertThat(output, is(expectedUrlEncoded));
     }
 
+    @Test
+    public void shouldUpdateAllValues() {
+        Book oldBook = new Book("old", "libro viejo", "Lucas", 1);
+        Book newBook = new Book("new", "libro nuevo", "Lucas", 1);
+
+        oldBook.updateValues(newBook);
+
+        assertThat(oldBook.getTitle(), is(newBook.getTitle()));
+        assertThat(oldBook.getAuthor(), is(newBook.getAuthor()));
+        assertThat(oldBook.getDescription(), is(oldBook.getDescription()));
+        assertThat(oldBook.getEdition(), is(newBook.getEdition()));
+    }
+
 }

@@ -69,4 +69,25 @@ public class BookControllerTest {
         verify(bookService).findAll();
     }
 
+    @Test
+    public void shouldUpdateBook() {
+        Book oldBook = new Book("Primero", "Libro Viejo", "Lucas", 1);
+        Book newBook = new Book("Segundo", "Libro Nuevo", "Lucas", 1);
+
+        when(bookService.updateBook(1, newBook)).thenReturn(newBook);
+        bookController.saveBook(oldBook);
+        Book bookResponde = bookController.updateBook(1, newBook);
+
+        assertThat(bookResponde).isEqualTo(newBook);
+    }
+
+    @Test
+    public void shouldReturnThePageWithFromToUpdate() {
+        ModelAndView expectedModelAndView = new ModelAndView("updateBook");
+
+        ModelAndView modelAndView = bookController.getUpdateBookForm();
+
+        assertThat(modelAndView.getViewName()).isEqualTo(expectedModelAndView.getViewName());
+    }
+
 }

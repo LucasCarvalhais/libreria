@@ -49,4 +49,19 @@ public class    BookServiceTest {
         verify(bookRepository).findAll();
     }
 
+    @Test
+    public void shouldUpdateBook() {
+        Book oldBook = new Book("Old", "Libro viejo", "Lucas", 1);
+        Book newBook = new Book("new", "Libro nuevo", "Lucas", 1);
+
+        when(bookRepository.findByBookId(1)).thenReturn(java.util.Optional.of(oldBook));
+        oldBook.updateValues(newBook);
+        when(bookRepository.save(oldBook)).thenReturn(newBook);
+
+        Book output = bookService.updateBook(1, newBook);
+        assertThat(output, is(newBook));
+        verify(bookRepository).findByBookId(1);
+        verify(bookRepository).save(oldBook);
+    }
+
 }
