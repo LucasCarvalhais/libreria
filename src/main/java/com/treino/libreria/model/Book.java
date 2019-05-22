@@ -1,5 +1,7 @@
 package com.treino.libreria.model;
 
+import com.treino.libreria.exceptions.InvalidResourceException;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -94,8 +96,12 @@ public class Book {
     }
 
     public void updateValues(Book newBook) {
-        if (newBook.title != null && newBook.author != null &&
-            newBook.description != null && newBook.edition != 0) {
+        if (newBook == null) {
+            throw new InvalidResourceException("¡Estás tentando alterar con libro nulo! 😱");
+        }
+        if (newBook.title == null || newBook.author == null) {
+            throw new InvalidResourceException("¡Hay que poner el título y/o el autor del libro! :(");
+        } else {
             this.title = newBook.title;
             this.author = newBook.author;
             this.description = newBook.description;

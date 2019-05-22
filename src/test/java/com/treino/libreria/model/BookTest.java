@@ -1,11 +1,17 @@
 package com.treino.libreria.model;
 
+import com.treino.libreria.exceptions.InvalidResourceException;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class BookTest {
+
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
     public void shouldReturnTheUrlEncodedString() {
@@ -38,16 +44,24 @@ public class BookTest {
     }
 
     @Test
-    public void shouldNotUpdateBookWithNullField() {
+    public void shouldThrowInvalidResourceWhenTryToInsertBookWithNullFields() {
         Book currentBook = new Book("title", "description", "author", 2);
         Book invalidBook = new Book(null, null, "AUTHOR", 1);
 
-        currentBook.updateValues(invalidBook);
+        exceptionRule.expect(InvalidResourceException.class);
+        exceptionRule.expectMessage("¡Hay que poner el título y/o el autor del libro! :(");
 
-        assertThat(currentBook.getTitle(), is("title"));
-        assertThat(currentBook.getDescription(), is("description"));
-        assertThat(currentBook.getAuthor(), is("author"));
-        assertThat(currentBook.getEdition(), is(2));
+        currentBook.updateValues(invalidBook);
+    }
+
+    @Test
+    public void shouldThrowExceptionIfBookIsNull() {
+        Book book = new Book("foo", "foo", "foo", 2);
+
+        exceptionRule.expect(InvalidResourceException.class);
+        exceptionRule.expectMessage("¡Estás tentando alterar con libro nulo! 😱");
+
+        book.updateValues(null);
     }
 
 }
