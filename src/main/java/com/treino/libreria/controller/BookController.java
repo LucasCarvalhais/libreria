@@ -18,9 +18,8 @@ import java.net.URL;
 import java.util.List;
 
 @RestController
+@RequestMapping("/book")
 public class BookController {
-
-    RestTemplate restTemplate = new RestTemplate();
 
     BookService bookService;
 
@@ -34,8 +33,8 @@ public class BookController {
         return bookService.save(book);
     }
 
-    @GetMapping("/new_book_form")
-    public ModelAndView getNewBookForm() {
+    @GetMapping("/register_book_form")
+    public ModelAndView getFormToRegisterBook() {
         return new ModelAndView("insertBook");
     }
 
@@ -44,14 +43,15 @@ public class BookController {
         return bookService.findAll();
     }
 
-    @PutMapping("/new_book/{id}")
+    @PutMapping("/update_book/{id}")
     public Book updateBook(@PathVariable("id") Integer id, @RequestBody Book newBook) {
         return bookService.updateBook(id, newBook);
     }
 
     @PostMapping("/update_book")
-    public RedirectView updateBookByPost(@RequestParam Integer  id, @ModelAttribute Book newBook) throws IOException {
-        restTemplate.put("http://localhost:8080/new_book/" + id, newBook, id);
+    public RedirectView updateBookFromForm(@RequestParam Integer  id, @ModelAttribute Book newBook) throws IOException {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.put("http://localhost:8080/book/update_book/" + id, newBook, id);
         return new RedirectView("/bienvenido");
     }
 

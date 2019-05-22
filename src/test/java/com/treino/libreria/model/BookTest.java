@@ -37,4 +37,17 @@ public class BookTest {
         assertThat(oldBook.getEdition(), is(newBook.getEdition()));
     }
 
+    @Test
+    public void shouldNotUpdateBookWithNullField() {
+        Book currentBook = new Book("title", "description", "author", 2);
+        Book invalidBook = new Book(null, null, "AUTHOR", 1);
+
+        currentBook.updateValues(invalidBook);
+
+        assertThat(currentBook.getTitle(), is("title"));
+        assertThat(currentBook.getDescription(), is("description"));
+        assertThat(currentBook.getAuthor(), is("author"));
+        assertThat(currentBook.getEdition(), is(2));
+    }
+
 }

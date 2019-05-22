@@ -94,10 +94,13 @@ public class Book {
     }
 
     public void updateValues(Book newBook) {
-        this.title = newBook.title;
-        this.author = newBook.author;
-        this.description = newBook.description;
-        this.edition = newBook.edition;
+        if (newBook.title != null && newBook.author != null &&
+            newBook.description != null && newBook.edition != 0) {
+            this.title = newBook.title;
+            this.author = newBook.author;
+            this.description = newBook.description;
+            this.edition = newBook.edition;
+        }
     }
 
     @Override

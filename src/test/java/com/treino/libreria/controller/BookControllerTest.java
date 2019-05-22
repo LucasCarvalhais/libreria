@@ -4,13 +4,23 @@ import com.treino.libreria.model.Book;
 import com.treino.libreria.service.BookService;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class BookControllerTest {
 
@@ -48,7 +58,7 @@ public class BookControllerTest {
     public void shouldReturnThePageWithFrom() {
         ModelAndView expectedModelAndView = new ModelAndView("insertBook");
 
-        ModelAndView modelAndView = bookController.getNewBookForm();
+        ModelAndView modelAndView = bookController.getFormToRegisterBook();
 
         assertThat(modelAndView.getViewName()).isEqualTo(expectedModelAndView.getViewName());
     }
@@ -76,9 +86,9 @@ public class BookControllerTest {
 
         when(bookService.updateBook(1, newBook)).thenReturn(newBook);
         bookController.saveBook(oldBook);
-        Book bookResponde = bookController.updateBook(1, newBook);
+        Book bookResponse = bookController.updateBook(1, newBook);
 
-        assertThat(bookResponde).isEqualTo(newBook);
+        assertThat(bookResponse).isEqualTo(newBook);
     }
 
     @Test
