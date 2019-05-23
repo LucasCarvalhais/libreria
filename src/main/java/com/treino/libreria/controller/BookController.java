@@ -1,5 +1,6 @@
 package com.treino.libreria.controller;
 
+import com.treino.libreria.exceptions.ResourceNotFoundException;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.service.BookService;
 import org.apache.http.HttpResponse;
@@ -29,7 +30,9 @@ public class BookController {
 
     @PostMapping(value = "/new_book")
     public Book saveBook(@ModelAttribute Book book) {
-        if (book == null) return null;
+        if (book == null) {
+            throw new ResourceNotFoundException("El libro no existe (es nulo) :(");
+        }
         return bookService.save(book);
     }
 

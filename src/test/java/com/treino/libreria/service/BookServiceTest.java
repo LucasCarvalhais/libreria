@@ -1,9 +1,12 @@
 package com.treino.libreria.service;
 
+import com.treino.libreria.exceptions.DuplicatedResouceException;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.repository.BookRepository;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,8 +17,10 @@ import static org.mockito.Mockito.*;
 
 public class    BookServiceTest {
 
-    BookRepository bookRepository;
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
+    BookRepository bookRepository;
     BookService bookService;
 
     @Before
@@ -62,6 +67,18 @@ public class    BookServiceTest {
         assertThat(output, is(newBook));
         verify(bookRepository).findByBookId(1);
         verify(bookRepository).save(oldBook);
+    }
+
+    @Test
+    public void shouldThrowExceptionIfBookAlreadyExists() {
+        Book bookExists = new Book("Teste", "Teste", "Teste", 1);
+
+        doReturn(bookExists).doThrow(DuplicatedResouceException.class).when(bookRepository).save(bookExists);
+
+        exception.expect(DuplicatedResouceException.class);
+
+        bookService.save(bookExists);
+        bookService.save(bookExists);
     }
 
 }

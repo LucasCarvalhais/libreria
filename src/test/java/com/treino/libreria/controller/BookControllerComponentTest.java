@@ -3,6 +3,7 @@ package com.treino.libreria.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.service.BookService;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -34,6 +35,11 @@ public class  BookControllerComponentTest {
     @Autowired
     BookService bookService;
 
+    @After
+    public void clearDB() {
+        bookService.clearDB();
+    }
+
     @Test
     public void shouldReturnBookWhenItIsInserted() throws Exception {
         Book book = new Book("Teste", "Testando... Hola, que tal", "Lucas", 2);
@@ -49,6 +55,28 @@ public class  BookControllerComponentTest {
                 .andExpect(content().string(containsString("Lucas")))
                 .andExpect(content().string(containsString("2")));
 
+    }
+
+    @Test
+    public void shouldGetBadRequestPageWhenBookIsInsertedTwice() throws Exception {
+        Book book = new Book("Teste", "Testando... Hola, que tal", "Lucas", 2);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/book/new_book")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .content(book.toUrlEncoded())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(containsString("Teste")))
+                .andExpect(content().string(containsString("Testando... Hola, que tal")))
+                .andExpect(content().string(containsString("Lucas")))
+                .andExpect(content().string(containsString("2")));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/book/new_book")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .content(book.toUrlEncoded())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

@@ -1,9 +1,12 @@
 package com.treino.libreria.controller;
 
+import com.treino.libreria.exceptions.ResourceNotFoundException;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.service.BookService;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -23,6 +26,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class BookControllerTest {
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     private BookController bookController;
     private BookService bookService;
@@ -45,13 +51,11 @@ public class BookControllerTest {
     }
 
     @Test
-    public void ShouldReturnNullIfBookIsNull() {
-        Book book = null;
+    public void shouldThrowExceptionIfBookIsNull() {
+        exception.expect(ResourceNotFoundException.class);
+        exception.expectMessage("El libro no existe (es nulo) :(");
 
-        Book bookResponse = this.bookController.saveBook(book);
-
-        assertThat(bookResponse).isNull();
-        verify(bookService, never()).save(book);
+        this.bookController.saveBook(null);
     }
 
     @Test

@@ -1,9 +1,13 @@
 package com.treino.libreria.service;
 
+import com.treino.libreria.exceptions.DuplicatedResouceException;
+import com.treino.libreria.exceptions.InvalidResourceException;
+import com.treino.libreria.exceptions.ResourceNotFoundException;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +21,9 @@ public class BookService {
     }
 
     public Book save(Book book) {
+        if (!bookRepository.findByTitle(book.getTitle()).isEmpty()) {
+            throw new DuplicatedResouceException("Libro ya existe :(");
+        }
         return bookRepository.save(book);
     }
 
@@ -24,15 +31,18 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book updateBook(Integer id, Book newBook) {
+    public Book updateBook(Integer id, Book newBook) throws InvalidResourceException, ResourceNotFoundException {
         Optional<Book> bookOptional = bookRepository.findByBookId(id);
         if (bookOptional.isPresent()) {
             Book book = bookOptional.get();
             book.updateValues(newBook);
             return bookRepository.save(book);
         } else {
-            // Throw book not found
-            return null;
+            throw new ResourceNotFoundException("Libro no encontrado!");
         }
+    }
+
+    public void clearDB() {
+        bookRepository.deleteAll();
     }
 }
