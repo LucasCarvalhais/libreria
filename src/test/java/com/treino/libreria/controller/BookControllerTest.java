@@ -104,4 +104,25 @@ public class BookControllerTest {
         assertThat(modelAndView.getViewName()).isEqualTo(expectedModelAndView.getViewName());
     }
 
+    @Test
+    public void shouldReturnBookById() {
+        Book expectedBook = new Book("Teste", "Teste", "Teste", 1);
+
+        when(bookService.findByBookId(1)).thenReturn(expectedBook);
+
+        Book bookResponse = bookController.getBook(1);
+
+        assertThat(bookResponse).isEqualTo(expectedBook);
+        verify(bookService).findByBookId(1);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenBookIsNotFound() {
+        exception.expect(ResourceNotFoundException.class);
+
+        when(bookService.findByBookId(2)).thenThrow(ResourceNotFoundException.class);
+
+        bookController.getBook(2);
+    }
+
 }

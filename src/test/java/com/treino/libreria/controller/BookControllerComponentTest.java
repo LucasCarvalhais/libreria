@@ -16,8 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.not;
+import javax.print.attribute.standard.Media;
+
+import static javafx.scene.input.KeyCode.M;
+import static org.hamcrest.CoreMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -130,6 +132,24 @@ public class  BookControllerComponentTest {
                 .andExpect(content().string(not(containsString("Libro Viejo"))))
                 .andExpect(content().string(containsString("Lucas")))
                 .andExpect(content().string(containsString("1")));;
+    }
+
+    @Test
+    public void shouldFindBookById() throws Exception {
+        Book book = new Book("Teste", "Testando... Hola, que tal", "Lucas", 2);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/book/new_book")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .content(book.toUrlEncoded())
+                .accept(MediaType.APPLICATION_JSON));
+
+        book = bookService.findAll().get(0);
+        mockMvc.perform(MockMvcRequestBuilders.get("/book/" + book.getBookId())
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .content("id=" + book.getBookId()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(equalTo(objectMapper.writeValueAsString(book))));
     }
 
 }

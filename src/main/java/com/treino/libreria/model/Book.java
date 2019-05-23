@@ -111,6 +111,28 @@ public class Book {
 
     @Override
     public String toString() {
-        return title + " | " + author + " | " + description + " | " + edition;
+        return "bookId: " + bookId + "\n" +
+                "title: " + title + "\n" +
+                "description: " + description + "\n" +
+                "author: " + author + "\n" +
+                "edition: " + edition + "\n";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Book book = (Book) obj;
+        return (this.bookId == book.bookId
+            && this.title == book.title
+            && this.description == book.description
+            && this.author == book.author
+            && this.edition == book.edition);
     }
 }

@@ -45,4 +45,13 @@ public class BookService {
     public void clearDB() {
         bookRepository.deleteAll();
     }
+
+    public Book findByBookId(int id) {
+        Optional<Book> bookOptional = bookRepository.findByBookId(id);
+        if (bookOptional.isPresent()) {
+            return bookOptional.get();
+        } else {
+            throw new ResourceNotFoundException("Libro no encontrado :(");
+        }
+    }
 }

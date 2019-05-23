@@ -46,6 +46,16 @@ public class BookController {
         return bookService.findAll();
     }
 
+    @GetMapping("/{id}")
+    public Book getBook(@PathVariable("id") @RequestParam Integer id) {
+        return bookService.findByBookId(id);
+    }
+
+    @GetMapping("/getById")
+    public ModelAndView getBookFormToSearchById() {
+        return new ModelAndView("searchBookById");
+    }
+
     @PutMapping("/update_book/{id}")
     public Book updateBook(@PathVariable("id") Integer id, @RequestBody Book newBook) {
         return bookService.updateBook(id, newBook);

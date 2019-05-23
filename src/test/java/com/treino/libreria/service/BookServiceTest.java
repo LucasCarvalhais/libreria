@@ -1,6 +1,7 @@
 package com.treino.libreria.service;
 
 import com.treino.libreria.exceptions.DuplicatedResouceException;
+import com.treino.libreria.exceptions.ResourceNotFoundException;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.repository.BookRepository;
 import org.junit.Before;
@@ -10,8 +11,10 @@ import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -64,7 +67,8 @@ public class    BookServiceTest {
         when(bookRepository.save(oldBook)).thenReturn(newBook);
 
         Book output = bookService.updateBook(1, newBook);
-        assertThat(output, is(newBook));
+        assertEquals(newBook, output);
+        assertEquals(oldBook, output);
         verify(bookRepository).findByBookId(1);
         verify(bookRepository).save(oldBook);
     }
@@ -73,12 +77,34 @@ public class    BookServiceTest {
     public void shouldThrowExceptionIfBookAlreadyExists() {
         Book bookExists = new Book("Teste", "Teste", "Teste", 1);
 
-        doReturn(bookExists).doThrow(DuplicatedResouceException.class).when(bookRepository).save(bookExists);
+        when(bookRepository.findByTitle("Teste")).thenReturn(Arrays.asList(bookExists));
 
         exception.expect(DuplicatedResouceException.class);
+        exception.expectMessage("Libro ya existe :(");
 
         bookService.save(bookExists);
-        bookService.save(bookExists);
+    }
+
+    @Test
+    public void shouldReturnBookWhenFindIt() {
+        Book expectedBook = new Book("Teste", "Teste", "Teste", 1);
+
+        when(bookRepository.findByBookId(1)).thenReturn(java.util.Optional.of(expectedBook));
+
+        Book book = bookService.findByBookId(1);
+        assertEquals(expectedBook, book);
+        verify(bookRepository).findByBookId(1);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenBookIsNotFound() {
+        exception.expect(ResourceNotFoundException.class);
+        exception.expectMessage("Libro no encontrado :(");
+
+        when(bookRepository.findByBookId(4)).thenReturn(Optional.empty());
+
+        bookService.findByBookId(4);
+        verify(bookRepository).findByBookId(4);
     }
 
 }
