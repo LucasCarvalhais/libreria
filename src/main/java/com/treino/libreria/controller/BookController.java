@@ -7,6 +7,7 @@ import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.RedirectAttributesMethodArgumentResolver;
@@ -22,6 +23,9 @@ import java.util.List;
 @RequestMapping("/book")
 public class BookController {
 
+    @Autowired
+    RestTemplate restTemplate;
+
     BookService bookService;
 
     public BookController(BookService bookService) {
@@ -30,9 +34,6 @@ public class BookController {
 
     @PostMapping(value = "/new_book")
     public Book saveBook(@ModelAttribute Book book) {
-        if (book == null) {
-            throw new ResourceNotFoundException("El libro no existe (es nulo) :(");
-        }
         return bookService.save(book);
     }
 
@@ -62,9 +63,12 @@ public class BookController {
     }
 
     @PostMapping("/update_book")
-    public RedirectView updateBookFromForm(@RequestParam Integer  id, @ModelAttribute Book newBook) throws IOException {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.put("http://localhost:8080/book/update_book/" + id, newBook, id);
+    public RedirectView updateBookFromForm(@RequestParam Integer  id, @ModelAttribute Book newBook) {
+        try {
+            restTemplate.put("http://localhost:8080/book/update_book/" + id, newBook, id);
+        } catch (HttpClientErrorException e) {
+            System.out.println(e.getMessage());
+        }
         return new RedirectView("/bienvenido");
     }
 

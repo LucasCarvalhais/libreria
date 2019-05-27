@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>pagina con error</title>
+</head>
+<body>
+    <img th:src="@{\images\cry_emoji.png}" alt="Emoji llorando porque hay un problema" style="height: 100px;"><br>
+
+    <h1>¡NOOOOOOOO!</h1>
+
+    <p>¡Occurií un error!</p>
+
+    <p th:if="${url}">
+        <b>Pagina:</b> <span th:text="${url}">Page URL</span>
+    </p>
+
+    <p th:if="${timestamp}" id='created'>
+        <b>Tiempo:</b> <span th:text="${timestamp}">Timestamp</span>
+    </p>
+
+    <p th:if="${status}">
+        <b>Status de respuesta:</b> <span th:text="${status}">status-code</span> <span
+            th:if="${error}" th:text="'('+${error}+')'">error ...</span>
+    </p>
+
+    <div th:if="${ex} or ${exception} or (${message} and ${message.length() != 0})">
+        <b>Mensaje:</b> <span th:if="${ex}" th:text="${ex}">exception ...</span>
+        <span th:if="${exception}" th:text="${exception}">exception ...</span>
+        <span th:if="${message} and ${message.length() != 0}"
+              th:text="${message}">message ...</span>
+    </div>
+
+    <p th:unless="${ex} or ${exception} or (${message} and ${message.length() != 0})">
+        Cause unknown (no exception details available)</p>
+
+</body>
+</html>

@@ -31,15 +31,10 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book updateBook(Integer id, Book newBook) throws InvalidResourceException, ResourceNotFoundException {
-        Optional<Book> bookOptional = bookRepository.findByBookId(id);
-        if (bookOptional.isPresent()) {
-            Book book = bookOptional.get();
-            book.updateValues(newBook);
-            return bookRepository.save(book);
-        } else {
-            throw new ResourceNotFoundException("Libro no encontrado!");
-        }
+    public Book updateBook(Integer id, Book newBook) {
+        Book book = findByBookId(id);
+        book.updateValues(newBook);
+        return bookRepository.save(book);
     }
 
     public void clearDB() {

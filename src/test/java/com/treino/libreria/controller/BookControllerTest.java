@@ -12,6 +12,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -29,6 +32,9 @@ public class BookControllerTest {
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
+
+    @Autowired
+    RestTemplate restTemplate;
 
     private BookController bookController;
     private BookService bookService;
@@ -48,14 +54,6 @@ public class BookControllerTest {
 
         assertThat(bookResponse).isEqualTo(book);
         verify(bookService).save(book);
-    }
-
-    @Test
-    public void shouldThrowExceptionIfBookIsNull() {
-        exception.expect(ResourceNotFoundException.class);
-        exception.expectMessage("El libro no existe (es nulo) :(");
-
-        this.bookController.saveBook(null);
     }
 
     @Test
@@ -124,5 +122,17 @@ public class BookControllerTest {
 
         bookController.getBook(2);
     }
+
+//    @Test
+//    public void shouldHandlePUTMethodFromFormWithPOST() {
+//        Book book = new Book("Teste", "Teste", "Teste", 1);
+//
+//        doNothing().when(restTemplate).put("http://localhost:8080/book/update_book/1", book, 1);
+//
+//        RedirectView expectedView = new RedirectView("/bienvenido");
+//        RedirectView redirectView = bookController.updateBookFromForm(1, book);
+//
+//        assertThat(redirectView.getUrl()).isEqualTo(expectedView.getUrl());
+//    }
 
 }
