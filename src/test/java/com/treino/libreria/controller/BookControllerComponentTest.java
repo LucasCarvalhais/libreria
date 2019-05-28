@@ -1,6 +1,7 @@
 package com.treino.libreria.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.treino.libreria.configuration.RestTemplateTestConfiguration;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.service.BookService;
 import org.junit.After;

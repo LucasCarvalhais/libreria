@@ -1,5 +1,6 @@
 package com.treino.libreria.controller;
 
+import com.treino.libreria.configuration.RestTemplateConfiguration;
 import com.treino.libreria.exceptions.ResourceNotFoundException;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.service.BookService;
@@ -23,13 +24,13 @@ import java.util.List;
 @RequestMapping("/book")
 public class BookController {
 
-    @Autowired
     RestTemplate restTemplate;
 
     BookService bookService;
 
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, RestTemplate restTemplate) {
         this.bookService = bookService;
+        this.restTemplate = restTemplate;
     }
 
     @PostMapping(value = "/new_book")

@@ -1,5 +1,7 @@
 package com.treino.libreria.controller;
 
+import com.treino.libreria.configuration.RestTemplateConfiguration;
+import com.treino.libreria.configuration.RestTemplateTestConfiguration;
 import com.treino.libreria.exceptions.ResourceNotFoundException;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.service.BookService;
@@ -7,6 +9,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -14,6 +17,8 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,16 +38,15 @@ public class BookControllerTest {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
-    @Autowired
-    RestTemplate restTemplate;
-
+    private RestTemplate restTemplate;
     private BookController bookController;
     private BookService bookService;
 
     @Before
     public void setUp() {
         this.bookService = mock(BookService.class);
-        this.bookController = new BookController(bookService);
+        this.restTemplate = mock(RestTemplate.class);
+        this.bookController = new BookController(bookService, restTemplate);
     }
 
     @Test
@@ -123,16 +127,16 @@ public class BookControllerTest {
         bookController.getBook(2);
     }
 
-//    @Test
-//    public void shouldHandlePUTMethodFromFormWithPOST() {
-//        Book book = new Book("Teste", "Teste", "Teste", 1);
-//
-//        doNothing().when(restTemplate).put("http://localhost:8080/book/update_book/1", book, 1);
-//
-//        RedirectView expectedView = new RedirectView("/bienvenido");
-//        RedirectView redirectView = bookController.updateBookFromForm(1, book);
-//
-//        assertThat(redirectView.getUrl()).isEqualTo(expectedView.getUrl());
-//    }
+    @Test
+    public void shouldHandlePUTMethodFromFormWithPOST() {
+        Book book = new Book("Teste", "Teste", "Teste", 1);
+
+        doNothing().when(restTemplate).put("http://localhost:8080/book/update_book/1", book, 1);
+
+        RedirectView expectedView = new RedirectView("/bienvenido");
+        RedirectView redirectView = bookController.updateBookFromForm(1, book);
+
+        assertThat(redirectView.getUrl()).isEqualTo(expectedView.getUrl());
+    }
 
 }
