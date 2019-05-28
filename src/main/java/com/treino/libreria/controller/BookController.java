@@ -1,39 +1,28 @@
 package com.treino.libreria.controller;
 
-import com.treino.libreria.configuration.RestTemplateConfiguration;
-import com.treino.libreria.exceptions.ResourceNotFoundException;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.service.BookService;
-import org.apache.http.HttpResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.method.annotation.RedirectAttributesMethodArgumentResolver;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 @RestController
 @RequestMapping("/book")
 public class BookController {
 
-    RestTemplate restTemplate;
-
-    BookService bookService;
+    private BookService bookService;
+    private RestTemplate restTemplate;
 
     public BookController(BookService bookService, RestTemplate restTemplate) {
         this.bookService = bookService;
         this.restTemplate = restTemplate;
     }
 
-    @PostMapping(value = "/new_book")
+    @PostMapping("/new_book")
     public Book saveBook(@ModelAttribute Book book) {
         return bookService.save(book);
     }
@@ -48,8 +37,13 @@ public class BookController {
         return bookService.findAll();
     }
 
+    @GetMapping("/search")
+    public Book getBookByForm(@RequestParam Integer id) {
+        return bookService.findByBookId(id);
+    }
+
     @GetMapping("/{id}")
-    public Book getBook(@PathVariable("id") @RequestParam Integer id) {
+    public Book getBookByURL(@PathVariable("id") Integer id) {
         return bookService.findByBookId(id);
     }
 

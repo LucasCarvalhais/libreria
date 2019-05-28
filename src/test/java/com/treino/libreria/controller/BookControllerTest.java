@@ -1,7 +1,5 @@
 package com.treino.libreria.controller;
 
-import com.treino.libreria.configuration.RestTemplateConfiguration;
-import com.treino.libreria.configuration.RestTemplateTestConfiguration;
 import com.treino.libreria.exceptions.ResourceNotFoundException;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.service.BookService;
@@ -9,29 +7,15 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class BookControllerTest {
 
@@ -112,7 +96,7 @@ public class BookControllerTest {
 
         when(bookService.findByBookId(1)).thenReturn(expectedBook);
 
-        Book bookResponse = bookController.getBook(1);
+        Book bookResponse = bookController.getBookByForm(1);
 
         assertThat(bookResponse).isEqualTo(expectedBook);
         verify(bookService).findByBookId(1);
@@ -124,7 +108,7 @@ public class BookControllerTest {
 
         when(bookService.findByBookId(2)).thenThrow(ResourceNotFoundException.class);
 
-        bookController.getBook(2);
+        bookController.getBookByForm(2);
     }
 
     @Test

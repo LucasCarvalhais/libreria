@@ -1,6 +1,6 @@
-$(document).ready(function(data) {
+$(document).ready(function() {
     $.ajax({
-        url: "http://localhost:8080/book/%7Bid%7D?id=1"
+        url: "http://localhost:8080/book/1"
     }).then(function(data) {
         $('.bookInfo-id').append(data.bookId);
         $('.bookInfo-title').append(data.title);

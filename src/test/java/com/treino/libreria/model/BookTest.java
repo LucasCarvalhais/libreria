@@ -59,7 +59,7 @@ public class BookTest {
         Book book = new Book("foo", "foo", "foo", 2);
 
         exceptionRule.expect(InvalidResourceException.class);
-        exceptionRule.expectMessage("¡Estás tentando alterar con libro nulo! 😱");
+        exceptionRule.expectMessage("¡Estás intentando alterar con libro nulo! 😱");
 
         book.updateValues(null);
     }

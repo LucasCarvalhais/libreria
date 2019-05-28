@@ -40,44 +40,44 @@ public class Book {
         this.edition = edition;
     }
 
-    public Integer getBookId() {
-        return bookId;
-    }
-
     public void setBookId(Integer bookId) {
         this.bookId = bookId;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getAuthor() {
-        return author;
     }
 
     public void setAuthor(String author) {
         this.author = author;
     }
 
-    public int getEdition() {
-        return edition;
-    }
-
     public void setEdition(int edition) {
         this.edition = edition;
+    }
+
+    public Integer getBookId() {
+        return bookId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public int getEdition() {
+        return edition;
     }
 
     public String toUrlEncoded() {
@@ -97,16 +97,16 @@ public class Book {
 
     public void updateValues(Book newBook) {
         if (newBook == null) {
-            throw new InvalidResourceException("¡Estás tentando alterar con libro nulo! 😱");
+            throw new InvalidResourceException("¡Estás intentando alterar con libro nulo! 😱");
         }
         if (newBook.title == null || newBook.author == null) {
             throw new InvalidResourceException("¡Hay que poner el título y/o el autor del libro! :(");
-        } else {
-            this.title = newBook.title;
-            this.author = newBook.author;
-            this.description = newBook.description;
-            this.edition = newBook.edition;
         }
+
+        this.title = newBook.title;
+        this.author = newBook.author;
+        this.description = newBook.description;
+        this.edition = newBook.edition;
     }
 
     @Override
@@ -119,16 +119,16 @@ public class Book {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
 
-        if (obj == null || obj.getClass() != this.getClass()) {
+        if (object == null || object.getClass() != this.getClass()) {
             return false;
         }
 
-        Book book = (Book) obj;
+        Book book = (Book) object;
         return (this.bookId == book.bookId
             && this.title == book.title
             && this.description == book.description
