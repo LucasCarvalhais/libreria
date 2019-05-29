@@ -117,7 +117,7 @@ public class BookControllerTest {
 
         doNothing().when(restTemplate).put("http://localhost:8080/book/update_book/1", book, 1);
 
-        RedirectView expectedView = new RedirectView("/bienvenido");
+        RedirectView expectedView = new RedirectView("/");
         RedirectView redirectView = bookController.updateBookFromForm(1, book);
 
         assertThat(redirectView.getUrl()).isEqualTo(expectedView.getUrl());

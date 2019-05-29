@@ -37,6 +37,14 @@ public class BookController {
         return bookService.findAll();
     }
 
+    @GetMapping("/books2")
+    public ModelAndView getAllBooks2() {
+        ModelAndView modelAndView = new ModelAndView("allBooks");
+        List<Book> books = bookService.findAll();
+        modelAndView.addObject("books", books);
+        return modelAndView;
+    }
+
     @GetMapping("/search")
     public Book getBookByForm(@RequestParam Integer id) {
         return bookService.findByBookId(id);
@@ -64,7 +72,7 @@ public class BookController {
         } catch (HttpClientErrorException e) {
             System.out.println(e.getMessage());
         }
-        return new RedirectView("/bienvenido");
+        return new RedirectView("/");
     }
 
     @GetMapping("/update_book_form")
