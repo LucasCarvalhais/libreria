@@ -23,7 +23,7 @@ public class HomeControllerComponentTest {
 
     @Test
     public void shouldShowWelcomePage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/bienvenido"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(content().string(containsString("<title>Bienvenido</title>")));

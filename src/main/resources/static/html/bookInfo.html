@@ -3,16 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Información del libro</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="../js/bookInfo.js"></script>
 </head>
 <body>
-    <div>
-        <p class="bookInfo-id"><b>Código: </b> </p>
-        <p class="bookInfo-title"><b>Título:</b> </p>
-        <p class="bookInfo-description"><b>Descripción:</b> </p>
-        <p class="bookInfo-author"><b>Autor:</b> </p>
-        <p class="bookInfo-edition"><b>Edición:</b> </p>
+    <h1>Información del libro</h1>
+    <p>Seleciona el código del libro</p>
+    <input type="number" id="bookCode">
+    <button onclick="bookInfo()">Consultar</button>
+
+    <div id="bookInfo" style="display: none;">
+        <p><b>Código: </b><span id="bookInfo-id"></span></p>
+        <p><b>Título: </b><span id="bookInfo-title"></span></p>
+        <p><b>Descripción: </b><span id="bookInfo-description"></span></p>
+        <p><b>Autor: </b><span id="bookInfo-author"></span></p>
+        <p><b>Edición: </b><span id="bookInfo-edition"></span></p>
     </div>
+    <div id="error" style="display: none;">
+        <p>Libro no encontrado 😭😭</p>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="../js/bookInfo.js"></script>
 </body>
 </html>
