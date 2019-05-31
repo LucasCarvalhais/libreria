@@ -76,12 +76,26 @@ public class BookController {
         return new ModelAndView("updateBook");
     }
 
+    @GetMapping("/delete_form")
+    public ModelAndView deleteBookForm() {
+        return new ModelAndView("deleteBook");
+    }
+
+    @GetMapping("/delete")
+    public ModelAndView deleteBookHandler(@RequestParam Integer id) {
+        try {
+            restTemplate.delete("http://localhost:8080/book/delete/" + id);
+        } catch (HttpClientErrorException exception) {
+            throw new InvalidResourceException(exception.getMessage());
+        }
+        ModelAndView modelAndView = new ModelAndView("success");
+        modelAndView.addObject("message", "Libro removido con éxito");
+        return modelAndView;
+    }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/delete/{id}")
-    public RedirectView deleteBook(@PathVariable("id") Integer id) {
+    public void deleteBook(@PathVariable("id") Integer id) {
         bookService.deleteById(id);
-        RedirectView redirectView = new RedirectView("success");
-        redirectView.addStaticAttribute("message", "Libro removido con éxito");
-        return redirectView;
     }
 }
