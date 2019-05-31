@@ -38,9 +38,12 @@ public class BookControllerTest {
         Book book = new Book("Teste", "Testando", "Lucas", 1);
 
         when(bookService.save(book)).thenReturn(book);
-        Book bookResponse = this.bookController.saveBook(book);
+        ModelAndView expectedModelAndView = new ModelAndView("success");
+        expectedModelAndView.addObject("message", "¡Libro adicionado con éxito!");
+        ModelAndView modelAndView = this.bookController.saveBook(book);
 
-        assertThat(bookResponse).isEqualTo(book);
+        assertThat(expectedModelAndView.getViewName()).isEqualTo(modelAndView.getViewName());
+        assertThat(expectedModelAndView.getModel()).isEqualTo(modelAndView.getModel());
         verify(bookService).save(book);
     }
 
@@ -61,12 +64,15 @@ public class BookControllerTest {
         bookController.saveBook(book2);
 
         List<Book> expectedBooks = Arrays.asList(book1, book2);
-        when(bookService.findAll()).thenReturn(expectedBooks);
+        when(bookService.findAllSorted()).thenReturn(expectedBooks);
+        ModelAndView expectedModelAndView = new ModelAndView("allBooks");
+        expectedModelAndView.addObject("books", expectedBooks);
 
-        List<Book> books = bookController.getAllBooks();
+        ModelAndView modelAndView = bookController.getAllBooks();
 
-        assertThat(books).isEqualTo(expectedBooks);
-        verify(bookService).findAll();
+        assertThat(modelAndView.getView()).isEqualTo(expectedModelAndView.getView());
+        assertThat(modelAndView.getModel()).isEqualTo(expectedModelAndView.getModel());
+        verify(bookService).findAllSorted();
     }
 
     @Test
@@ -97,6 +103,18 @@ public class BookControllerTest {
         when(bookService.findByBookId(1)).thenReturn(expectedBook);
 
         Book bookResponse = bookController.getBookByForm(1);
+
+        assertThat(bookResponse).isEqualTo(expectedBook);
+        verify(bookService).findByBookId(1);
+    }
+
+    @Test
+    public void shouldReturnBookById_Version2() {
+        Book expectedBook = new Book("Teste", "Teste", "Teste", 1);
+
+        when(bookService.findByBookId(1)).thenReturn(expectedBook);
+
+        Book bookResponse = bookController.getBookByURL(1);
 
         assertThat(bookResponse).isEqualTo(expectedBook);
         verify(bookService).findByBookId(1);

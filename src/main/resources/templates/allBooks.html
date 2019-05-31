@@ -3,17 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista de los libros</title>
+    <style>
+        table, tr, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
 </head>
 <body>
     <h1>Lista de los libros</h1>
 
-    <div th:each="book : ${books}">
-        <p><b>Código: </b><span th:text="${book.bookId}"></span></p>
-        <p><b>Título: </b><span th:text="${book.title}"></span></p>
-        <p><b>Descripción: </b><span th:text="${book.description}"></span></p>
-        <p><b>Author: </b><span th:text="${book.author}"></span></p>
-        <p><b>Edición: </b><span th:text="${book.edition}"></span></p>
-        <hr>
-    </div>
+    <table>
+        <tr>
+            <th>Código</th>
+            <th>Título</th>
+            <th>Description</th>
+            <th>Author</th>
+            <th>Edition</th>
+        </tr>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.bookId}"></td>
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.description}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.edition}"></td>
+        </tr>
+    </table>
 </body>
 </html>

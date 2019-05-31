@@ -1,13 +1,11 @@
 package com.treino.libreria.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.treino.libreria.configuration.RestTemplateTestConfiguration;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.service.BookService;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,11 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.client.RestTemplate;
 
-import javax.print.attribute.standard.Media;
-
-import static javafx.scene.input.KeyCode.M;
 import static org.hamcrest.CoreMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,7 +34,7 @@ public class  BookControllerComponentTest {
 
     @After
     public void clearDB() {
-        bookService.clearDB();
+        bookService.clearDatabase();
     }
 
     @Test
@@ -52,12 +46,8 @@ public class  BookControllerComponentTest {
                     .content(book.toUrlEncoded())
                     .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(content().string(containsString("Teste")))
-                .andExpect(content().string(containsString("Testando... Hola, que tal")))
-                .andExpect(content().string(containsString("Lucas")))
-                .andExpect(content().string(containsString("2")));
-
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(containsString("¡Libro adicionado con éxito!")));
     }
 
     @Test
@@ -69,11 +59,7 @@ public class  BookControllerComponentTest {
                 .content(book.toUrlEncoded())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(content().string(containsString("Teste")))
-                .andExpect(content().string(containsString("Testando... Hola, que tal")))
-                .andExpect(content().string(containsString("Lucas")))
-                .andExpect(content().string(containsString("2")));
+                .andExpect(content().contentType("text/html;charset=UTF-8"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/book/new_book")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -102,7 +88,7 @@ public class  BookControllerComponentTest {
     public void shouldListAllAvailableBooks() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/book/books"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                .andExpect(content().contentType("text/html;charset=UTF-8"));
     }
 
     @Test
@@ -115,11 +101,7 @@ public class  BookControllerComponentTest {
                     .content(oldBook.toUrlEncoded())
                     .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(content().string(containsString("Primero")))
-                .andExpect(content().string(containsString("Libro Viejo")))
-                .andExpect(content().string(containsString("Lucas")))
-                .andExpect(content().string(containsString("1")));
+                .andExpect(content().contentType("text/html;charset=UTF-8"));
 
         mockMvc.perform(MockMvcRequestBuilders.put("/book/update_book/1")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -151,6 +133,20 @@ public class  BookControllerComponentTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().string(equalTo(objectMapper.writeValueAsString(book))));
+    }
+
+    @Test
+    public void shouldDeleteBookById() throws Exception {
+        Book book = new Book("Teste", "Testando... Hola, que tal", "Lucas", 2);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/book/new_book")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .content(book.toUrlEncoded())
+                .accept(MediaType.APPLICATION_JSON));
+
+        book = bookService.findAll().get(0);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/book/delete/" + book.getBookId()))
+                .andExpect(status().is(204));
     }
 
 }

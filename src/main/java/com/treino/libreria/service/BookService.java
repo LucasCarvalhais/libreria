@@ -31,13 +31,17 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    public List<Book> findAllSorted() {
+        return bookRepository.findAllByOrderByBookIdAsc();
+    }
+
     public Book updateBook(Integer id, Book newBook) {
         Book book = findByBookId(id);
         book.updateValues(newBook);
         return bookRepository.save(book);
     }
 
-    public void clearDB() {
+    public void clearDatabase() {
         bookRepository.deleteAll();
     }
 
@@ -45,6 +49,15 @@ public class BookService {
         Optional<Book> bookOptional = bookRepository.findByBookId(id);
         if (bookOptional.isPresent()) {
             return bookOptional.get();
+        } else {
+            throw new ResourceNotFoundException("Libro no encontrado :(");
+        }
+    }
+
+    public void deleteById(Integer id) {
+        Optional<Book> bookOptional = bookRepository.findByBookId(id);
+        if (bookOptional.isPresent()) {
+            bookRepository.delete(bookOptional.get());
         } else {
             throw new ResourceNotFoundException("Libro no encontrado :(");
         }

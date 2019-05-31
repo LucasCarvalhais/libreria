@@ -1,13 +1,16 @@
 package com.treino.libreria.controller;
 
+import com.treino.libreria.exceptions.InvalidResourceException;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.service.BookService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -23,8 +26,11 @@ public class BookController {
     }
 
     @PostMapping("/new_book")
-    public Book saveBook(@ModelAttribute Book book) {
-        return bookService.save(book);
+    public ModelAndView saveBook(@ModelAttribute Book book) {
+        bookService.save(book);
+        ModelAndView modelAndView = new ModelAndView("success");
+        modelAndView.addObject("message", "¡Libro adicionado con éxito!");
+        return modelAndView;
     }
 
     @GetMapping("/register_book_form")
@@ -33,14 +39,9 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    public List<Book> getAllBooks() {
-        return bookService.findAll();
-    }
-
-    @GetMapping("/books2")
-    public ModelAndView getAllBooks2() {
+    public ModelAndView getAllBooks() {
         ModelAndView modelAndView = new ModelAndView("allBooks");
-        List<Book> books = bookService.findAll();
+        List<Book> books = bookService.findAllSorted();
         modelAndView.addObject("books", books);
         return modelAndView;
     }
@@ -55,11 +56,6 @@ public class BookController {
         return bookService.findByBookId(id);
     }
 
-    @GetMapping("/getById")
-    public ModelAndView getBookFormToSearchById() {
-        return new ModelAndView("searchBookById");
-    }
-
     @PutMapping("/update_book/{id}")
     public Book updateBook(@PathVariable("id") Integer id, @RequestBody Book newBook) {
         return bookService.updateBook(id, newBook);
@@ -69,8 +65,8 @@ public class BookController {
     public RedirectView updateBookFromForm(@RequestParam Integer  id, @ModelAttribute Book newBook) {
         try {
             restTemplate.put("http://localhost:8080/book/update_book/" + id, newBook, id);
-        } catch (HttpClientErrorException e) {
-            System.out.println(e.getMessage());
+        } catch (HttpClientErrorException exception) {
+            throw exception;
         }
         return new RedirectView("/");
     }
@@ -78,5 +74,14 @@ public class BookController {
     @GetMapping("/update_book_form")
     public ModelAndView getUpdateBookForm() {
         return new ModelAndView("updateBook");
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/delete/{id}")
+    public RedirectView deleteBook(@PathVariable("id") Integer id) {
+        bookService.deleteById(id);
+        RedirectView redirectView = new RedirectView("success");
+        redirectView.addStaticAttribute("message", "Libro removido con éxito");
+        return redirectView;
     }
 }
