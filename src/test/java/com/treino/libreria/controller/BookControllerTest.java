@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,39 +33,30 @@ public class BookControllerTest {
     }
 
     @Test
-    public void shpuldReturnBookWhenSaveIt() {
+    public void shpuldReturnSuccessPageWhenSaveBook() {
         Book book = new Book("Teste", "Testando", "Lucas", 1);
 
         when(bookService.save(book)).thenReturn(book);
         ModelAndView expectedModelAndView = new ModelAndView("success");
         expectedModelAndView.addObject("message", "¡Libro adicionado con éxito!");
+
         ModelAndView modelAndView = this.bookController.saveBook(book);
 
-        assertThat(expectedModelAndView.getViewName()).isEqualTo(modelAndView.getViewName());
-        assertThat(expectedModelAndView.getModel()).isEqualTo(modelAndView.getModel());
-        verify(bookService).save(book);
-    }
-
-    @Test
-    public void shouldReturnThePageWithFrom() {
-        ModelAndView expectedModelAndView = new ModelAndView("insertBook");
-
-        ModelAndView modelAndView = bookController.getFormToRegisterBook();
-
         assertThat(modelAndView.getViewName()).isEqualTo(expectedModelAndView.getViewName());
+        assertThat(modelAndView.getModel()).isEqualTo(expectedModelAndView.getModel());
+        verify(bookService).save(book);
     }
 
     @Test
     public void shouldReturnThePageWithListOfBooks() {
         Book book1 = new Book("Teste", "Testando", "Lucas", 1);
         Book book2 = new Book("Libro", "Este es un libro", "Jimmy", 3);
-        bookController.saveBook(book1);
-        bookController.saveBook(book2);
 
-        List<Book> expectedBooks = Arrays.asList(book1, book2);
-        when(bookService.findAllSorted()).thenReturn(expectedBooks);
+        List<Book> books = Arrays.asList(book1, book2);
+        when(bookService.findAllSorted()).thenReturn(books);
+
         ModelAndView expectedModelAndView = new ModelAndView("allBooks");
-        expectedModelAndView.addObject("books", expectedBooks);
+        expectedModelAndView.addObject("books", books);
 
         ModelAndView modelAndView = bookController.getAllBooks();
 
@@ -76,47 +66,14 @@ public class BookControllerTest {
     }
 
     @Test
-    public void shouldUpdateBook() {
-        Book oldBook = new Book("Primero", "Libro Viejo", "Lucas", 1);
-        Book newBook = new Book("Segundo", "Libro Nuevo", "Lucas", 1);
-
-        when(bookService.updateBook(1, newBook)).thenReturn(newBook);
-        bookController.saveBook(oldBook);
-        Book bookResponse = bookController.updateBook(1, newBook);
-
-        assertThat(bookResponse).isEqualTo(newBook);
-    }
-
-    @Test
-    public void shouldReturnThePageWithFromToUpdate() {
-        ModelAndView expectedModelAndView = new ModelAndView("updateBook");
-
-        ModelAndView modelAndView = bookController.getUpdateBookForm();
-
-        assertThat(modelAndView.getViewName()).isEqualTo(expectedModelAndView.getViewName());
-    }
-
-    @Test
     public void shouldReturnBookById() {
         Book expectedBook = new Book("Teste", "Teste", "Teste", 1);
 
         when(bookService.findByBookId(1)).thenReturn(expectedBook);
 
-        Book bookResponse = bookController.getBookByForm(1);
+        Book bookResponseForm = bookController.getBook(1);
 
-        assertThat(bookResponse).isEqualTo(expectedBook);
-        verify(bookService).findByBookId(1);
-    }
-
-    @Test
-    public void shouldReturnBookById_Version2() {
-        Book expectedBook = new Book("Teste", "Teste", "Teste", 1);
-
-        when(bookService.findByBookId(1)).thenReturn(expectedBook);
-
-        Book bookResponse = bookController.getBookByURL(1);
-
-        assertThat(bookResponse).isEqualTo(expectedBook);
+        assertThat(bookResponseForm).isEqualTo(expectedBook);
         verify(bookService).findByBookId(1);
     }
 
@@ -126,19 +83,55 @@ public class BookControllerTest {
 
         when(bookService.findByBookId(2)).thenThrow(ResourceNotFoundException.class);
 
-        bookController.getBookByForm(2);
+        bookController.getBook(2);
     }
 
     @Test
-    public void shouldHandlePUTMethodFromFormWithPOST() {
+    public void shouldUpdateBook() {
+        Book newBook = new Book("Segundo", "Libro Nuevo", "Lucas", 1);
+
+        when(bookService.updateBook(1, newBook)).thenReturn(newBook);
+        Book bookResponse = bookController.updateBook(1, newBook);
+
+        assertThat(bookResponse).isEqualTo(newBook);
+    }
+
+    @Test
+    public void shouldHandlePUTMethod() {
         Book book = new Book("Teste", "Teste", "Teste", 1);
 
         doNothing().when(restTemplate).put("http://localhost:8080/book/update_book/1", book, 1);
 
-        RedirectView expectedView = new RedirectView("/");
-        RedirectView redirectView = bookController.updateBookFromForm(1, book);
+        ModelAndView expectedModelAndView = new ModelAndView("success");
+        expectedModelAndView.addObject("message", "Libro atualizado con éxito");
 
-        assertThat(redirectView.getUrl()).isEqualTo(expectedView.getUrl());
+        ModelAndView modelAndView = bookController.updateBookHandler(1, book);
+
+        assertThat(modelAndView.getView()).isEqualTo(expectedModelAndView.getView());
+        assertThat(modelAndView.getModel()).isEqualTo(expectedModelAndView.getModel());
+        verify(restTemplate).put("http://localhost:8080/book/update_book/1", book, 1);
+    }
+
+    @Test
+    public void shouldDeleteBook() {
+        doNothing().when(bookService).deleteById(1);
+
+        bookController.deleteBook(1);
+        verify(bookService).deleteById(1);
+    }
+
+    @Test
+    public void shouldHandleDELETEMethod() {
+        doNothing().when(restTemplate).delete("http://localhost:8080/book/delete/1");
+
+        ModelAndView expectedModelAndView = new ModelAndView("success");
+        expectedModelAndView.addObject("message", "Libro removido con éxito");
+
+        ModelAndView modelAndView = bookController.deleteBookHandler(1);
+
+        assertThat(modelAndView.getView()).isEqualTo(expectedModelAndView.getView());
+        assertThat(modelAndView.getModel()).isEqualTo(expectedModelAndView.getModel());
+        verify(restTemplate).delete("http://localhost:8080/book/delete/1");
     }
 
 }

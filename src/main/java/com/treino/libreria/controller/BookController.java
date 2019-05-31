@@ -28,31 +28,21 @@ public class BookController {
     @PostMapping("/new_book")
     public ModelAndView saveBook(@ModelAttribute Book book) {
         bookService.save(book);
+
         ModelAndView modelAndView = new ModelAndView("success");
         modelAndView.addObject("message", "¡Libro adicionado con éxito!");
         return modelAndView;
     }
 
-    @GetMapping("/register_book_form")
-    public ModelAndView getFormToRegisterBook() {
-        return new ModelAndView("insertBook");
-    }
-
     @GetMapping("/books")
     public ModelAndView getAllBooks() {
         ModelAndView modelAndView = new ModelAndView("allBooks");
-        List<Book> books = bookService.findAllSorted();
-        modelAndView.addObject("books", books);
+        modelAndView.addObject("books", bookService.findAllSorted());
         return modelAndView;
     }
 
-    @GetMapping("/search")
-    public Book getBookByForm(@RequestParam Integer id) {
-        return bookService.findByBookId(id);
-    }
-
     @GetMapping("/{id}")
-    public Book getBookByURL(@PathVariable("id") Integer id) {
+    public Book getBook(@PathVariable("id") Integer id) {
         return bookService.findByBookId(id);
     }
 
@@ -62,23 +52,22 @@ public class BookController {
     }
 
     @PostMapping("/update_book")
-    public RedirectView updateBookFromForm(@RequestParam Integer  id, @ModelAttribute Book newBook) {
+    public ModelAndView updateBookHandler(@RequestParam Integer  id, @ModelAttribute Book newBook) {
         try {
             restTemplate.put("http://localhost:8080/book/update_book/" + id, newBook, id);
         } catch (HttpClientErrorException exception) {
-            throw exception;
+            throw new InvalidResourceException(exception.getMessage());
         }
-        return new RedirectView("/");
+
+        ModelAndView modelAndView = new ModelAndView("success");
+        modelAndView.addObject("message", "Libro atualizado con éxito");
+        return modelAndView;
     }
 
-    @GetMapping("/update_book_form")
-    public ModelAndView getUpdateBookForm() {
-        return new ModelAndView("updateBook");
-    }
-
-    @GetMapping("/delete_form")
-    public ModelAndView deleteBookForm() {
-        return new ModelAndView("deleteBook");
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/delete/{id}")
+    public void deleteBook(@PathVariable("id") Integer id) {
+        bookService.deleteById(id);
     }
 
     @GetMapping("/delete")
@@ -88,14 +77,11 @@ public class BookController {
         } catch (HttpClientErrorException exception) {
             throw new InvalidResourceException(exception.getMessage());
         }
+
         ModelAndView modelAndView = new ModelAndView("success");
         modelAndView.addObject("message", "Libro removido con éxito");
         return modelAndView;
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/delete/{id}")
-    public void deleteBook(@PathVariable("id") Integer id) {
-        bookService.deleteById(id);
-    }
+
 }

@@ -38,7 +38,7 @@ public class  BookControllerComponentTest {
     }
 
     @Test
-    public void shouldReturnBookWhenItIsInserted() throws Exception {
+    public void shouldSaveBookAndShowSuccessMessage() throws Exception {
         Book book = new Book("Teste", "Testando... Hola, que tal", "Lucas", 2);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/book/new_book")
@@ -51,44 +51,28 @@ public class  BookControllerComponentTest {
     }
 
     @Test
-    public void shouldGetBadRequestPageWhenBookIsInsertedTwice() throws Exception {
+    public void shouldListAllAvailableBooks() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/book/books"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html;charset=UTF-8"));
+    }
+
+    @Test
+    public void shouldFindBookById() throws Exception {
         Book book = new Book("Teste", "Testando... Hola, que tal", "Lucas", 2);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/book/new_book")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(book.toUrlEncoded())
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"));
+                .accept(MediaType.APPLICATION_JSON));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/book/new_book")
+        book = bookService.findAll().get(0);
+        mockMvc.perform(MockMvcRequestBuilders.get("/book/" + book.getBookId())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .content(book.toUrlEncoded())
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void shouldGetTheForm() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/book/register_book_form"))
+                .content("id=" + book.getBookId()))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(content().string(containsString("<title>Cadastro del libro</title>")));
-    }
-
-    @Test
-    public void shouldGetTheFormToUpdate() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/book/update_book_form"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(content().string(containsString("<title>Atualización del libro</title>")));
-    }
-
-    @Test
-    public void shouldListAllAvailableBooks() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/book/books"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(equalTo(objectMapper.writeValueAsString(book))));
     }
 
     @Test
@@ -114,25 +98,7 @@ public class  BookControllerComponentTest {
                 .andExpect(content().string(containsString("Libro Nuevo")))
                 .andExpect(content().string(not(containsString("Libro Viejo"))))
                 .andExpect(content().string(containsString("Lucas")))
-                .andExpect(content().string(containsString("1")));;
-    }
-
-    @Test
-    public void shouldFindBookById() throws Exception {
-        Book book = new Book("Teste", "Testando... Hola, que tal", "Lucas", 2);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/book/new_book")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .content(book.toUrlEncoded())
-                .accept(MediaType.APPLICATION_JSON));
-
-        book = bookService.findAll().get(0);
-        mockMvc.perform(MockMvcRequestBuilders.get("/book/" + book.getBookId())
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .content("id=" + book.getBookId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(content().string(equalTo(objectMapper.writeValueAsString(book))));
+                .andExpect(content().string(containsString("1")));
     }
 
     @Test

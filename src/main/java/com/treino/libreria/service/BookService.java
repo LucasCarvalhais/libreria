@@ -16,14 +16,17 @@ public class BookService {
 
     BookRepository bookRepository;
 
+
+
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
+    public void clearDatabase() {
+        bookRepository.deleteAll();
+    }
+
     public Book save(Book book) {
-        if (!bookRepository.findByTitle(book.getTitle()).isEmpty()) {
-            throw new DuplicatedResouceException("Libro ya existe :(");
-        }
         return bookRepository.save(book);
     }
 
@@ -35,16 +38,6 @@ public class BookService {
         return bookRepository.findAllByOrderByBookIdAsc();
     }
 
-    public Book updateBook(Integer id, Book newBook) {
-        Book book = findByBookId(id);
-        book.updateValues(newBook);
-        return bookRepository.save(book);
-    }
-
-    public void clearDatabase() {
-        bookRepository.deleteAll();
-    }
-
     public Book findByBookId(int id) {
         Optional<Book> bookOptional = bookRepository.findByBookId(id);
         if (bookOptional.isPresent()) {
@@ -54,12 +47,14 @@ public class BookService {
         }
     }
 
+    public Book updateBook(Integer id, Book newBook) {
+        Book book = findByBookId(id);
+        book.updateValues(newBook);
+        return bookRepository.save(book);
+    }
+
     public void deleteById(Integer id) {
-        Optional<Book> bookOptional = bookRepository.findByBookId(id);
-        if (bookOptional.isPresent()) {
-            bookRepository.delete(bookOptional.get());
-        } else {
-            throw new ResourceNotFoundException("Libro no encontrado :(");
-        }
+        Book book = findByBookId(id);
+        bookRepository.delete(book);
     }
 }

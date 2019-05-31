@@ -74,18 +74,6 @@ public class    BookServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionIfBookAlreadyExists() {
-        Book bookExists = new Book("Teste", "Teste", "Teste", 1);
-
-        when(bookRepository.findByTitle("Teste")).thenReturn(Arrays.asList(bookExists));
-
-        exception.expect(DuplicatedResouceException.class);
-        exception.expectMessage("Libro ya existe :(");
-
-        bookService.save(bookExists);
-    }
-
-    @Test
     public void shouldReturnBookWhenFindIt() {
         Book expectedBook = new Book("Teste", "Teste", "Teste", 1);
 
