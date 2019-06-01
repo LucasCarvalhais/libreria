@@ -1,5 +1,6 @@
 package com.treino.libreria.service;
 
+// Muitos imports não utilizados aqui
 import com.treino.libreria.exceptions.DuplicatedResouceException;
 import com.treino.libreria.exceptions.InvalidResourceException;
 import com.treino.libreria.exceptions.ResourceNotFoundException;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class BookService {
@@ -34,6 +36,7 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    // Ficaria legal deixar mais claro no nome do método que os livros estao sendo ordenados com base no ID
     public List<Book> findAllSorted() {
         return bookRepository.findAllByOrderByBookIdAsc();
     }
@@ -58,3 +61,7 @@ public class BookService {
         bookRepository.delete(book);
     }
 }
+
+
+// Gostei do design do código, aqui embaixo vou colocar um link sobre clean architecture
+// Link sobre clean architecture: https://www.freecodecamp.org/news/a-quick-introduction-to-clean-architecture-990c014448d2/
