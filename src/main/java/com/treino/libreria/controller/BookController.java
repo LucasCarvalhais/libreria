@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/book") // Seguindo o link no último comentário, aqui seria /books
 public class BookController {
 
     private BookService bookService;
@@ -25,6 +25,7 @@ public class BookController {
         this.restTemplate = restTemplate;
     }
 
+    // Existe uma convenção de como escrever endpoints de APIs. No caso de adicionar novo book, seguindo a convenção, seria um POST em /books com o json do novo livro no corpo
     @PostMapping("/new_book")
     public ModelAndView saveBook(@ModelAttribute Book book) {
         bookService.save(book);
@@ -34,6 +35,7 @@ public class BookController {
         return modelAndView;
     }
 
+    // Para buscar todos os livros GET /books
     @GetMapping("/books")
     public ModelAndView getAllBooks() {
         ModelAndView modelAndView = new ModelAndView("allBooks");
@@ -41,6 +43,7 @@ public class BookController {
         return modelAndView;
     }
 
+    // Para pegar um book especifico por id GET /books/{id}
     @GetMapping("/{id}")
     public Book getBook(@PathVariable("id") Integer id) {
         return bookService.findByBookId(id);
@@ -51,6 +54,8 @@ public class BookController {
         return bookService.updateBook(id, newBook);
     }
 
+    // Para atualizar um book, acho que seria PUT /books/{id} corpo com o livro ja com dados atualizados
+    // Uma dúvida. O que são esses handlers? Acho que eles poderiam ser extraídos para uma classe chamada, por exemplo, BookHandler.
     @PostMapping("/update_book")
     public ModelAndView updateBookHandler(@RequestParam Integer  id, @ModelAttribute Book newBook) {
         try {
@@ -64,6 +69,7 @@ public class BookController {
         return modelAndView;
     }
 
+    // Para deletar seria o DELETE /books/{id}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/delete/{id}")
     public void deleteBook(@PathVariable("id") Integer id) {
@@ -83,5 +89,7 @@ public class BookController {
         return modelAndView;
     }
 
+    // Um link para você consultar a convenção de RESTful API: https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/
+    // Deve ter mais material na internet, esse foi o primeiro que apareceu pra mim com um basicão bem útil
 
 }
