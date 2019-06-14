@@ -1,6 +1,5 @@
 package com.treino.libreria.service;
 
-import com.treino.libreria.exceptions.DuplicatedResouceException;
 import com.treino.libreria.exceptions.ResourceNotFoundException;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.repository.BookRepository;

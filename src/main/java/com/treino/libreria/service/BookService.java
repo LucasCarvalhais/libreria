@@ -1,13 +1,10 @@
 package com.treino.libreria.service;
 
-import com.treino.libreria.exceptions.DuplicatedResouceException;
-import com.treino.libreria.exceptions.InvalidResourceException;
 import com.treino.libreria.exceptions.ResourceNotFoundException;
 import com.treino.libreria.model.Book;
 import com.treino.libreria.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 import java.util.Optional;
 
