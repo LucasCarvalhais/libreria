@@ -8,9 +8,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,40 +29,49 @@ public class BookControllerTest {
     public void setUp() {
         this.bookService = mock(BookService.class);
         this.restTemplate = mock(RestTemplate.class);
-        this.bookController = new BookController(bookService, restTemplate);
+        this.bookController = new BookController(bookService);
     }
 
     @Test
-    public void shpuldReturnSuccessPageWhenSaveBook() {
+    public void shouldReturnBookWhenSuccessfullySaveIt() {
         Book book = new Book("Teste", "Testando", "Lucas", 1);
 
         when(bookService.save(book)).thenReturn(book);
-        ModelAndView expectedModelAndView = new ModelAndView("success");
-        expectedModelAndView.addObject("message", "¡Libro adicionado con éxito!");
+        Book bookOutput = bookController.saveBook(book);
 
-        ModelAndView modelAndView = this.bookController.saveBook(book);
-
-        assertThat(modelAndView.getViewName()).isEqualTo(expectedModelAndView.getViewName());
-        assertThat(modelAndView.getModel()).isEqualTo(expectedModelAndView.getModel());
+        assertThat(bookOutput).isEqualTo(book);
         verify(bookService).save(book);
     }
 
     @Test
-    public void shouldReturnThePageWithListOfBooks() {
+    public void souldReturnNullIfBookIsNull() {
+        when(bookService.save(null)).thenReturn(null);
+        Book bookOutput = bookController.saveBook(null);
+
+        assertThat(bookOutput).isNull();
+        verify(bookService).save(null);
+    }
+
+    @Test
+    public void shouldReturnAllBooks() {
         Book book1 = new Book("Teste", "Testando", "Lucas", 1);
         Book book2 = new Book("Libro", "Este es un libro", "Jimmy", 3);
 
         List<Book> books = Arrays.asList(book1, book2);
-        when(bookService.findAllSorted()).thenReturn(books);
+        when(bookService.findAll()).thenReturn(books);
+        List<Book> booksOutput = bookController.getAllBooks();
 
-        ModelAndView expectedModelAndView = new ModelAndView("allBooks");
-        expectedModelAndView.addObject("books", books);
+        assertThat(booksOutput).isEqualTo(books);
+        verify(bookService).findAll();
+    }
 
-        ModelAndView modelAndView = bookController.getAllBooks();
+    @Test
+    public void shouldReturnEmptyListIfThereAreNoBooks() {
+        when(bookService.findAll()).thenReturn(Collections.emptyList());
+        List<Book> booksOutput = bookController.getAllBooks();
 
-        assertThat(modelAndView.getView()).isEqualTo(expectedModelAndView.getView());
-        assertThat(modelAndView.getModel()).isEqualTo(expectedModelAndView.getModel());
-        verify(bookService).findAllSorted();
+        assertThat(booksOutput).isEmpty();
+        verify(bookService).findAll();
     }
 
     @Test
@@ -70,10 +79,9 @@ public class BookControllerTest {
         Book expectedBook = new Book("Teste", "Teste", "Teste", 1);
 
         when(bookService.findByBookId(1)).thenReturn(expectedBook);
+        Book bookOutput = bookController.getBook(1);
 
-        Book bookResponseForm = bookController.getBook(1);
-
-        assertThat(bookResponseForm).isEqualTo(expectedBook);
+        assertThat(bookOutput).isEqualTo(expectedBook);
         verify(bookService).findByBookId(1);
     }
 
@@ -88,50 +96,37 @@ public class BookControllerTest {
 
     @Test
     public void shouldUpdateBook() {
-        Book newBook = new Book("Segundo", "Libro Nuevo", "Lucas", 1);
+        Book expectedBook = new Book("Segundo", "Libro Nuevo", "Lucas", 1);
 
-        when(bookService.updateBook(1, newBook)).thenReturn(newBook);
-        Book bookResponse = bookController.updateBook(1, newBook);
+        when(bookService.updateBook(1, expectedBook)).thenReturn(expectedBook);
+        Book bookOutput = bookController.updateBook(1, expectedBook);
 
-        assertThat(bookResponse).isEqualTo(newBook);
+        assertThat(bookOutput).isEqualTo(expectedBook);
+        verify(bookService).updateBook(1, expectedBook);
     }
 
     @Test
-    public void shouldHandlePUTMethod() {
-        Book book = new Book("Teste", "Teste", "Teste", 1);
+    public void shouldThrowExceptionWhenTryToUpdateUnexistingBook() {
+        exception.expect(ResourceNotFoundException.class);
 
-        doNothing().when(restTemplate).put("http://localhost:8080/book/update_book/1", book, 1);
+        Book book = new Book("foo", "foo", "foo", 2);
+        when(bookService.updateBook(2, book)).thenThrow(ResourceNotFoundException.class);
 
-        ModelAndView expectedModelAndView = new ModelAndView("success");
-        expectedModelAndView.addObject("message", "Libro atualizado con éxito");
-
-        ModelAndView modelAndView = bookController.updateBookHandler(1, book);
-
-        assertThat(modelAndView.getView()).isEqualTo(expectedModelAndView.getView());
-        assertThat(modelAndView.getModel()).isEqualTo(expectedModelAndView.getModel());
-        verify(restTemplate).put("http://localhost:8080/book/update_book/1", book, 1);
+        bookController.updateBook(2, book);
     }
 
     @Test
     public void shouldDeleteBook() {
         doNothing().when(bookService).deleteById(1);
-
         bookController.deleteBook(1);
         verify(bookService).deleteById(1);
     }
 
     @Test
-    public void shouldHandleDELETEMethod() {
-        doNothing().when(restTemplate).delete("http://localhost:8080/book/delete/1");
-
-        ModelAndView expectedModelAndView = new ModelAndView("success");
-        expectedModelAndView.addObject("message", "Libro removido con éxito");
-
-        ModelAndView modelAndView = bookController.deleteBookHandler(1);
-
-        assertThat(modelAndView.getView()).isEqualTo(expectedModelAndView.getView());
-        assertThat(modelAndView.getModel()).isEqualTo(expectedModelAndView.getModel());
-        verify(restTemplate).delete("http://localhost:8080/book/delete/1");
+    public void shouldThrowExceptionWhenTryToDeleteUnexistingBook() {
+        exception.expect(ResourceNotFoundException.class);
+        doThrow(ResourceNotFoundException.class).when(bookService).deleteById(2);
+        bookController.deleteBook(2);
     }
 
 }
