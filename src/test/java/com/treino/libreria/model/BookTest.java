@@ -14,23 +14,6 @@ public class BookTest {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void shouldReturnTheUrlEncodedString() {
-        Book book = new Book("Primero", "Primero Libro", "Lucas", 1);
-        String expectedUrlEncoded = "title=Primero&description=Primero Libro&author=Lucas&edition=1";
-
-        String output = book.toUrlEncoded();
-        assertThat(output, is(expectedUrlEncoded));
-    }
-
-    @Test
-    public void shouldReturnUrlEncodedWithNoDescriptionNorEdition() {
-        Book book = new Book("Primero", null, "Lucas", 0);
-        String expectedUrlEncoded = "title=Primero&author=Lucas";
-        String output = book.toUrlEncoded();
-        assertThat(output, is(expectedUrlEncoded));
-    }
-
-    @Test
     public void shouldUpdateAllValues() {
         Book oldBook = new Book("old", "libro viejo", "Lucas", 1);
         Book newBook = new Book("new", "libro nuevo", "Lucas", 1);
@@ -55,7 +38,7 @@ public class BookTest {
     }
 
     @Test
-    public void shouldThrowExceptionIfBookIsNull() {
+    public void shouldThrowExceptionIfNewBookIsNull() {
         Book book = new Book("foo", "foo", "foo", 2);
 
         exceptionRule.expect(InvalidResourceException.class);

@@ -80,21 +80,6 @@ public class Book {
         return edition;
     }
 
-    public String toUrlEncoded() {
-        StringBuilder urlEncoded = new StringBuilder();
-
-        urlEncoded.append("title=" + getTitle());
-        if (description != null) {
-            urlEncoded.append("&description=" + getDescription());
-        }
-        urlEncoded.append("&author=" + getAuthor());
-        if (edition > 0) {
-            urlEncoded.append("&edition=" + getEdition());
-        }
-
-        return urlEncoded.toString();
-    }
-
     public void updateValues(Book newBook) {
         if (newBook == null) {
             throw new InvalidResourceException("¡Estás intentando alterar con libro nulo! 😱");

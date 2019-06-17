@@ -13,8 +13,6 @@ public class BookService {
 
     BookRepository bookRepository;
 
-
-
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
@@ -29,10 +27,6 @@ public class BookService {
 
     public List<Book> findAll() {
         return bookRepository.findAll();
-    }
-
-    public List<Book> findAllSorted() {
-        return bookRepository.findAllByOrderByBookIdAsc();
     }
 
     public Book findByBookId(int id) {

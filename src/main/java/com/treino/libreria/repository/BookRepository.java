@@ -12,6 +12,4 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findByBookId(Integer bookId);
 
-    List<Book> findAllByOrderByBookIdAsc();
-
 }
