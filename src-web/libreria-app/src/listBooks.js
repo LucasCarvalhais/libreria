@@ -12,14 +12,17 @@ class ListBooks extends Component {
         this.state = {
             books: [],
             error: null,
+            isLoading: false,
         };
 
         this.fetchBooks = this.fetchBooks.bind(this);
     }
     
     fetchBooks() {
+        this.setState({ isLoading: true });
+
         axios.get('http://localhost:8080/books/')
-            .then(result => this.setState({ books: result.data }))
+            .then(result => this.setState({ books: result.data, isLoading: false }))
             .catch(error => this.setState({ error }));
     }
 
@@ -28,7 +31,7 @@ class ListBooks extends Component {
     }
 
     render() {
-        const { books, error } = this.state;
+        const { books, error, isLoading } = this.state;
 
         return (
             <div>
@@ -38,7 +41,9 @@ class ListBooks extends Component {
                     {console.log('ERRO ' + error)}
                 </div>
                 : <div>
-                    <table className="bookTable">
+                    {isLoading
+                     ? <div><p className="loading">Cargando...</p></div> 
+                     : <table className="bookTable">
                         {books.map(book => 
                             <tr>
                                 <td>{book.bookId}</td>
@@ -49,6 +54,7 @@ class ListBooks extends Component {
                             </tr>
                         )}
                     </table>
+                    }
                 </div>
             }
             </div>

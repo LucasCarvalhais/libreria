@@ -9,3 +9,7 @@
     border: 2px solid darkred;
     border-collapse: collapse;
 }
+
+.loading {
+    text-align: center;
+}
