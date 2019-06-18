@@ -1,0 +1,11 @@
+.bookTable {
+    width: 90%;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.bookTable td {
+    border: 2px solid darkred;
+    border-collapse: collapse;
+}
