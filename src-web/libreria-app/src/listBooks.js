@@ -43,17 +43,27 @@ class ListBooks extends Component {
                 : <div>
                     {isLoading
                      ? <div><p className="loading">Cargando...</p></div> 
-                     : <table className="bookTable">
-                        {books.map(book => 
-                            <tr>
-                                <td>{book.bookId}</td>
-                                <td>{book.title}</td>
-                                <td>{book.description}</td>
-                                <td>{book.author}</td>
-                                <td>{book.edition}</td>
-                            </tr>
-                        )}
-                    </table>
+                     : <div>
+                        <h1>Lista de los libros</h1>
+                        <table className="bookTable">
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Título</th>
+                                    <th>Descripción</th>
+                                    <th>Persona autora</th>
+                                    <th>Edición</th>
+                                </tr>
+                            {books.map(book => 
+                                <tr>
+                                    <td>{book.bookId}</td>
+                                    <td>{book.title}</td>
+                                    <td>{book.description}</td>
+                                    <td>{book.author}</td>
+                                    <td>{book.edition}</td>
+                                </tr>
+                            )}
+                        </table>
+                    </div>
                     }
                 </div>
             }

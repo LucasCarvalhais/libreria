@@ -1,3 +1,7 @@
+h1 {
+    text-align: center;
+}
+
 .bookTable {
     width: 90%;
     margin: auto;
@@ -5,7 +9,7 @@
     margin-bottom: 50px;
 }
 
-.bookTable td {
+.bookTable, th, tr, td {
     border: 2px solid darkred;
     border-collapse: collapse;
 }
