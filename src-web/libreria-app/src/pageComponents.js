@@ -5,19 +5,6 @@ const Header = () =>
         <h1>Librería de Madrid</h1>
     </header>;
 
-const Navigation = () => 
-    <nav>
-        <table>
-            <tr>
-                <td><a>Pagina de inicio</a></td>
-                <td><a>Pesquisar el libro</a></td>
-                <td><a>Cadastrar nuevo libro</a></td>
-                <td><a>Atualizar el libro</a></td>
-                <td><a>Deletar el libro</a></td>
-            </tr>
-        </table>
-    </nav>;
-
 const Footer = () => 
     <footer>
         <p>
@@ -27,6 +14,5 @@ const Footer = () =>
 
 export {
     Header,
-    Navigation,
     Footer
 }
