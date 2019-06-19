@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './listBooks.css';
-import { PATH_BASE, PATH_BOOKS } from './constants';
+import './books.css';
+import { PATH_BASE, PATH_BOOKS } from '../constants';
 
 class ListBooks extends Component {
     constructor(props) {

@@ -17,3 +17,12 @@ h1 {
 .errorMessage, .loading {
     text-align: center;
 }
+
+.formulario {
+    margin: 50px;
+}
+
+.formulario input {
+    border: 1px solid black;
+    height: 18pt;
+}
