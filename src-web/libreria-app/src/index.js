@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Header, Footer } from './pageComponents';
+import { Header, Navigation, Footer } from './pageComponents';
 import { Welcome } from './welcome';
 import ListBooks from './listBooks';
 
@@ -19,54 +19,28 @@ class App extends Component {
         this.setState({ page: name })
     }
 
-    navigation() {
-        return <nav>
-            <table>
-                <tr>
-                    <td><a onClick={() => this.setPageName('home')}>
-                        Pagina de inicio
-                    </a></td>
-                    <td><a onClick={() => this.setPageName('list')}>
-                        Listar los libros
-                    </a></td>
-                    <td><a onClick={() => this.setPageName('create')}>
-                        Cadastrar nuevo libro
-                    </a></td>
-                    <td><a onClick={() => this.setPageName('update')}>
-                        Atualizar el libro
-                    </a></td>
-                    <td><a onClick={() => this.setPageName('delete')}>
-                        Deletar el libro
-                    </a></td>
-                </tr>
-            </table>
-        </nav>;
-    }
-
-    printMainPage(page) {
-        switch(page) {
-            case 'home':
-                return <Welcome />
-            case 'list':
-                return <ListBooks />
-            default:
-                return <p>En construcción...</p>
-        }
-    }
-
     render() {
         const { page } = this.state;
 
         return (
             <div>
                 <Header />
-                
-                {this.navigation()}
-                {this.printMainPage(page)}
-
+                <Navigation setPageName={this.setPageName} />
+                <MainPage page={page} />
                 <Footer />
             </div>
         );
+    }
+}
+
+const MainPage = ({ page }) => {
+    switch(page) {
+        case 'home':
+            return <Welcome />
+        case 'list':
+            return <ListBooks />
+        default:
+            return <p className="inConstruction">En construcción...</p>
     }
 }
 

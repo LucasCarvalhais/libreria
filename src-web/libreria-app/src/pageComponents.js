@@ -5,6 +5,29 @@ const Header = () =>
         <h1>Librería de Madrid</h1>
     </header>;
 
+const Navigation = ({ setPageName }) => 
+    <nav>
+        <table>
+            <tr>
+                <td><a onClick={() => setPageName('home')}>
+                    Pagina de inicio
+                </a></td>
+                <td><a onClick={() => setPageName('list')}>
+                    Listar los libros
+                </a></td>
+                <td><a onClick={() => setPageName('create')}>
+                    Cadastrar nuevo libro
+                </a></td>
+                <td><a onClick={() => setPageName('update')}>
+                    Atualizar el libro
+                </a></td>
+                <td><a onClick={() => setPageName('delete')}>
+                    Deletar el libro
+                </a></td>
+            </tr>
+        </table>
+    </nav>
+
 const Footer = () => 
     <footer>
         <p>
@@ -14,5 +37,6 @@ const Footer = () =>
 
 export {
     Header,
+    Navigation,
     Footer
 }
