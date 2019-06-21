@@ -3,6 +3,7 @@ import { Header, Navigation, Footer } from './pageComponents';
 import { Welcome } from './welcome';
 import NewBook from './books/newBook';
 import ListBooks from './books/listBooks';
+import UpdateBook from './books/updateBooks';
 
 class App extends Component {
     constructor(props) {
@@ -44,6 +45,8 @@ const MainPage = ({ page }) => {
             return <ListBooks />;
         case 'create':
             return <NewBook />;
+        case 'update':
+            return <UpdateBook />;
         default:
             return <p className="inConstruction">En construcción...</p>;
     }

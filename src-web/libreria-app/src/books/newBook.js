@@ -102,7 +102,7 @@ const Form = ({ book, handleChange, handleSubmit }) =>
                 onChange={handleChange}
             />
         </label><br />
-        <input id="submitBtn" type="submit" value="Cadastrar" />
+        <input className="submitButton" type="submit" value="Cadastrar" />
     </form>
 
 export default NewBook;

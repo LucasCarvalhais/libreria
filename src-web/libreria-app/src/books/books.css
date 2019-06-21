@@ -38,7 +38,7 @@
     background: #CCC;
 }
 
-#submitBtn {
+.submitButton {
     background-color: yellow;
     width: 50%;
     margin-left: 25%;
@@ -48,7 +48,7 @@
     font-size: 18px;
 }
 
-#submitBtn:hover {
+.submitButton:hover {
     background-color: #CCCC00;
     cursor: pointer;
 }
