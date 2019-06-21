@@ -46,7 +46,7 @@ class ListBooks extends Component {
 }
 
 const ErrorMessage = ({ error }) =>
-    <div className="errorMessage">
+    <div className="message">
         <p>Ocurrió un problema :(</p>
         <p>{error.toString()}</p>
         {console.log('ERRO: ' + error)}
@@ -81,3 +81,5 @@ const Table = ({ books, isLoading }) =>
     </div>
 
 export default ListBooks;
+
+export { ErrorMessage, };

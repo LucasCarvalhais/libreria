@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { PATH_BASE, PATH_BOOKS } from '../constants';
+import { ErrorMessage } from './listBooks';
 import './books.css';
 
 class NewBook extends Component {
@@ -12,7 +13,7 @@ class NewBook extends Component {
                 title: '',
                 description: '',
                 author: '',
-                edition: 0,
+                edition: undefined,
             },
             success: false,
             error: null,
@@ -31,7 +32,7 @@ class NewBook extends Component {
 
     handleSubmit(event) {
         axios.post(`${PATH_BASE}${PATH_BOOKS}`, this.state.book)
-            .then(response => this.setState({ success: true }))
+            .then(() => this.setState({ success: true }))
             .catch(error => this.setState({ error }));
         event.preventDefault();
     }
@@ -43,59 +44,65 @@ class NewBook extends Component {
             <div>
                 <h1>Cadastrar el nuevo libro</h1>
                 {error 
-                ? <div>
-                    <p>Uccurió un error :(</p>
-                    <p>{error.toString()}</p>
-                </div>
-                : success 
-                ? <p>Suceso!</p>
-                : <form className="formulario" onSubmit={this.handleSubmit}>
-                    <label>
-                        <span className="legend">Título: </span>
-                        <input
-                            className="inputForm" 
-                            type="text" 
-                            name="title"
-                            value={book.title}
-                            onChange={this.handleChange} 
+                    ? <ErrorMessage error={error} />
+                    : success 
+                        ? <SuccessMessage />
+                        : <Form 
+                            book={book}
+                            handleChange={this.handleChange}
+                            handleSubmit={this.handleSubmit} 
                         />
-                    </label><br />
-                    <label>
-                        <span className="legend">Descripción: </span>
-                        <input
-                            className="inputForm" 
-                            type="text" 
-                            name="description" 
-                            value={book.description}
-                            onChange={this.handleChange}
-                        />
-                    </label><br />
-                    <label>
-                        <span className="legend">Autor: </span>
-                        <input
-                            className="inputForm" 
-                            type="text" 
-                            name="author" 
-                            value={book.author}
-                            onChange={this.handleChange}
-                        />
-                    </label><br />
-                    <label>
-                        <span className="legend">Edición: </span>
-                        <input
-                            className="inputForm" 
-                            type="number" 
-                            name="edition" 
-                            value={book.edition}
-                            onChange={this.handleChange}
-                        />
-                    </label><br />
-                    <input id="submitBtn" type="submit" value="Cadastrar" />
-                </form>
                 }
             </div>
         );
     }
 }
+
+const SuccessMessage = () => <p className="message">Suceso!</p>
+
+const Form = ({ book, handleChange, handleSubmit }) => 
+    <form className="formulario" onSubmit={handleSubmit}>
+        <label>
+            <span className="legend">Título: </span>
+            <input
+                className="inputForm" 
+                type="text" 
+                name="title"
+                value={book.title}
+                onChange={handleChange} 
+            />
+        </label><br />
+        <label>
+            <span className="legend">Descripción: </span>
+            <input
+                className="inputForm" 
+                type="text" 
+                name="description" 
+                value={book.description}
+                onChange={handleChange}
+            />
+        </label><br />
+        <label>
+            <span className="legend">Autor: </span>
+            <input
+                className="inputForm" 
+                type="text" 
+                name="author" 
+                value={book.author}
+                onChange={handleChange}
+            />
+        </label><br />
+        <label>
+            <span className="legend">Edición: </span>
+            <input
+                className="inputForm" 
+                type="number" 
+                name="edition" 
+                value={book.edition}
+                onChange={handleChange}
+            />
+        </label><br />
+        <input id="submitBtn" type="submit" value="Cadastrar" />
+    </form>
 
 export default NewBook;
