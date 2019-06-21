@@ -48,7 +48,9 @@ class NewBook extends Component {
                 ? <p>Suceso!</p>
                 : <form className="formulario" onSubmit={this.handleSubmit}>
                     <label>
-                        Título: <input 
+                        <span className="legend">Título: </span>
+                        <input
+                            className="inputForm" 
                             type="text" 
                             name="title"
                             value={this.state.book.title}
@@ -56,7 +58,9 @@ class NewBook extends Component {
                         />
                     </label><br />
                     <label>
-                        Descripción: <input 
+                        <span className="legend">Descripción: </span>
+                        <input
+                            className="inputForm" 
                             type="text" 
                             name="description" 
                             value={this.state.book.description}
@@ -64,7 +68,9 @@ class NewBook extends Component {
                         />
                     </label><br />
                     <label>
-                        Autor: <input 
+                        <span className="legend">Autor: </span>
+                        <input
+                            className="inputForm" 
                             type="text" 
                             name="author" 
                             value={this.state.book.author}
@@ -72,14 +78,16 @@ class NewBook extends Component {
                         />
                     </label><br />
                     <label>
-                        Edición: <input 
+                        <span className="legend">Edición: </span>
+                        <input
+                            className="inputForm" 
                             type="number" 
                             name="edition" 
                             value={this.state.book.edition}
                             onChange={this.handleChange}
                         />
                     </label><br />
-                    <input type="submit" value="Cadastrar" />
+                    <input id="submitBtn" type="submit" value="Cadastrar" />
                 </form>
                 }
             </div>

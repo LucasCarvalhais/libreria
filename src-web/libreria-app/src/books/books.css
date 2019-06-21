@@ -19,10 +19,26 @@ h1 {
 }
 
 .formulario {
-    margin: 50px;
+    margin: auto;
+    width: 50%;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
-.formulario input {
+.legend {
+    float: left;
+    width: 29%;
+}
+
+.inputForm {
+    float: right;
+    width: 70%;
     border: 1px solid black;
-    height: 18pt;
+}
+
+#submitBtn {
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%; 
+    border: 1px solid darkred;
 }
