@@ -11,6 +11,8 @@ header {
 nav {
     margin: 0px;
     padding: 0px;
+    position: sticky;
+    top: 0;
 }
 
 nav table {
