@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { PATH_BASE, PATH_BOOKS } from '../constants';
 import { ErrorMessage } from './listBooks';
+import { Form } from './newBook';
 
 class UpdateBook extends Component {
     constructor(props) {
@@ -15,12 +16,15 @@ class UpdateBook extends Component {
                 author: '',
                 edition: undefined,
             },
-            success: false,
-            error: null,
+            successSearch: false,
+            successUpdate: false,
+            errorSearch: null,
+            errorUpdate: null,
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
@@ -38,43 +42,67 @@ class UpdateBook extends Component {
         axios.get(`${PATH_BASE}${PATH_BOOKS}${this.state.bookId}`)
             .then(response => this.setState({
                 book: response.data, 
-                success: true,
-                error: null }))
+                successSearch: true,
+                successUpdate: false,
+                errorSearch: null,
+                errorUpdate: null }))
             .catch(error => this.setState({ 
                 book: null,
-                success: false,
-                error }));
+                successSearch: false,
+                successSearch: false,
+                errorSearch: error,
+                errorUpdate: null, }));
+        event.preventDefault();
+    }
+
+    handleSubmit(event) {
+        axios.put(`${PATH_BASE}${PATH_BOOKS}${this.state.bookId}`, this.state.book)
+            .then(() => this.setState({
+                successSearch: false, 
+                successUpdate: true,
+                errorSearch: null,
+                errorUpdate: null }))
+            .catch(error => this.setState({ 
+                successSearch: false,
+                successUpdate: false,
+                errorSearch: null,
+                errorUpdate: error }));
         event.preventDefault();
     }
 
     render() {
-        const { bookId, book, success, error } = this.state;
+        const { 
+            bookId, 
+            book, 
+            successSearch, 
+            successUpdate, 
+            errorSearch, 
+            errorUpdate 
+        } = this.state;
 
         return (
             <div>
-                <form className="formulario">
-                    <label>
-                        <span className="legend">Pesquisar libro: </span>
-                        <input 
-                            className="inputForm"
-                            type="number"
-                            name="bookId"
-                            value={bookId}
-                            onChange={this.handleChange}
-                        />
-                    </label>
-                    <input 
-                        className="submitButton" 
-                        type="submit" 
-                        value="Pesquisar"
-                        onClick={this.handleSearch} 
+                <h1>Atualizar el libro</h1>
+                {!successSearch && 
+                    <FormSearch
+                        bookId={bookId}
+                        handleChange={this.handleChange}
+                        handleSearch={this.handleSearch}
                     />
-                </form>
-                {error
-                    ? <ErrorMessage error={error} />
-                    : success
-                        ? <div>EM CONSTRUÇÃO</div>
-                        : <div>
+                }
+                {errorUpdate
+                    ? <ErrorMessage error={errorUpdate} />
+                    : successUpdate && <div className="message">SUceso!</div>
+                }
+                {errorSearch
+                    ? <ErrorMessage error={errorSearch} />
+                    : successSearch
+                        ? <Form
+                            book={book}
+                            handleChange={this.handleChange}
+                            handleSubmit={this.handleSubmit}
+                        />
+                        : <div className="message">
                             <p>Por favor seleciona un código del libro y clica en "Pesquisar".</p>
                         </div>
                 }
@@ -82,5 +110,25 @@ class UpdateBook extends Component {
         );
     }
 }
+
+const FormSearch = ({ bookId, handleChange, handleSearch }) => 
+    <form className="formulario">
+        <label>
+            <span className="legend">Pesquisar libro: </span>
+            <input 
+                className="inputForm"
+                type="number"
+                name="bookId"
+                value={bookId}
+                onChange={handleChange}
+            />
+        </label>
+        <input 
+            className="submitButton" 
+            type="submit" 
+            value="Pesquisar"
+            onClick={handleSearch} 
+        />
+    </form>
 
 export default UpdateBook;

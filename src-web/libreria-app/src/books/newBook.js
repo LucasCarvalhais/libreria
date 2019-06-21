@@ -106,3 +106,5 @@ const Form = ({ book, handleChange, handleSubmit }) =>
     </form>
 
 export default NewBook;
+
+export { Form };
