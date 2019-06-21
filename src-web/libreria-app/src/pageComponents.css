@@ -1,0 +1,55 @@
+header {
+    border: 5px solid black;
+    background-image: linear-gradient(red 20%,  yellow 20%, yellow 80%, red 80%);
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    color: #FFF;
+    text-shadow: 3px 0px 5px darkred, 0px 3px 5px darkred, -3px 0px 5px darkred, 0px -3px 5px darkred;
+    text-align: center;
+}
+
+nav {
+    margin: 0px;
+    padding: 0px;
+}
+
+nav table {
+    width: 100%;
+    background-color: yellow;
+}
+
+nav table, td {
+    border: 5px solid black;
+    border-collapse: collapse;
+}
+
+nav td {
+    font-size: 18px;
+    text-align: center;
+}
+
+nav p {
+    margin: 0px;
+    padding: 10px;
+}
+
+nav td:hover {
+    background-color: #CCCC00;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+footer {
+    background-color: yellow;
+    border: 5px solid black;
+    margin: 0px;
+    padding: 0px;
+}
+
+footer p {
+    margin: auto;
+    padding: 10px;
+    font-size: 12px;
+    text-align: center;
+    width: 50%;
+}

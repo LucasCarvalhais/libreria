@@ -1,4 +1,5 @@
 import React from 'react';
+import './pageComponents.css';
 
 const Header = () => 
     <header>
@@ -9,21 +10,21 @@ const Navigation = ({ setPageName }) =>
     <nav>
         <table>
             <tr>
-                <td><a onClick={() => setPageName('home')}>
+                <td><p onClick={() => setPageName('home')}>
                     Pagina de inicio
-                </a></td>
-                <td><a onClick={() => setPageName('list')}>
+                </p></td>
+                <td><p onClick={() => setPageName('list')}>
                     Listar los libros
-                </a></td>
-                <td><a onClick={() => setPageName('create')}>
+                </p></td>
+                <td><p onClick={() => setPageName('create')}>
                     Cadastrar nuevo libro
-                </a></td>
-                <td><a onClick={() => setPageName('update')}>
+                </p></td>
+                <td><p onClick={() => setPageName('update')}>
                     Atualizar el libro
-                </a></td>
-                <td><a onClick={() => setPageName('delete')}>
+                </p></td>
+                <td><p onClick={() => setPageName('delete')}>
                     Deletar el libro
-                </a></td>
+                </p></td>
             </tr>
         </table>
     </nav>

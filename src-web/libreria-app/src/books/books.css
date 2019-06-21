@@ -1,10 +1,5 @@
-h1 {
-    text-align: center;
-}
-
 .bookTable {
-    width: 90%;
-    margin: auto;
+    width: 100%;
     margin-top: 50px;
     margin-bottom: 50px;
 }
@@ -26,19 +21,33 @@ h1 {
 }
 
 .legend {
-    float: left;
-    width: 29%;
+    padding-left: 10px;
 }
 
 .inputForm {
-    float: right;
-    width: 70%;
+    margin-bottom: 20px;
+    width: 100%;
     border: 1px solid black;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 18px;
+}
+
+.inputForm:focus {
+    background: #CCC;
 }
 
 #submitBtn {
+    background-color: yellow;
     width: 50%;
     margin-left: 25%;
-    margin-right: 25%; 
     border: 1px solid darkred;
+    border-radius: 20px;
+    padding: 5px;
+    font-size: 18px;
+}
+
+#submitBtn:hover {
+    background-color: #CCCC00;
+    cursor: pointer;
 }

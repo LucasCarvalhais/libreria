@@ -43,7 +43,10 @@ class NewBook extends Component {
             <div>
                 <h1>Cadastrar el nuevo libro</h1>
                 {error 
-                ? <p>Uccurió un error :(</p>
+                ? <div>
+                    <p>Uccurió un error :(</p>
+                    <p>{error.toString()}</p>
+                </div>
                 : success 
                 ? <p>Suceso!</p>
                 : <form className="formulario" onSubmit={this.handleSubmit}>
@@ -53,7 +56,7 @@ class NewBook extends Component {
                             className="inputForm" 
                             type="text" 
                             name="title"
-                            value={this.state.book.title}
+                            value={book.title}
                             onChange={this.handleChange} 
                         />
                     </label><br />
@@ -63,7 +66,7 @@ class NewBook extends Component {
                             className="inputForm" 
                             type="text" 
                             name="description" 
-                            value={this.state.book.description}
+                            value={book.description}
                             onChange={this.handleChange}
                         />
                     </label><br />
@@ -73,7 +76,7 @@ class NewBook extends Component {
                             className="inputForm" 
                             type="text" 
                             name="author" 
-                            value={this.state.book.author}
+                            value={book.author}
                             onChange={this.handleChange}
                         />
                     </label><br />
@@ -83,7 +86,7 @@ class NewBook extends Component {
                             className="inputForm" 
                             type="number" 
                             name="edition" 
-                            value={this.state.book.edition}
+                            value={book.edition}
                             onChange={this.handleChange}
                         />
                     </label><br />

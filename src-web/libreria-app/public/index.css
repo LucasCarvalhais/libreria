@@ -4,51 +4,10 @@ body {
     font-family: 'Roboto Condensed', sans-serif;
 }
 
-header {
-    border: 5px solid black;
-    background-image: linear-gradient(red 20%,  yellow 20%, yellow 80%, red 80%);
-    font-family: 'Playfair Display', serif;
-    font-size: 30px;
-    color: #FFF;
-    text-shadow: 3px 0px 5px darkred, 0px 3px 5px darkred, -3px 0px 5px darkred, 0px -3px 5px darkred;
-    text-align: center;
-}
-
-nav {
-    margin: 0px;
-    padding: 0px;
-}
-
-nav table, td {
-    border-bottom: 5px solid black;
-    border-left: 5px solid black;
-    border-right: 5px solid black;
-    border-collapse: collapse;
-}
-
-nav table {
-    width: 100%;
-    background-color: yellow;
-}
-
-nav td {
-    font-size: 18px;
-    text-align: center;
-    padding: 10px 5px;
-}
-
-nav td {
-    text-decoration: none;
-}
-
-nav td:hover {
-    text-decoration: underline;
-    cursor: pointer;
-}
-
 main {
     margin: auto;
-    padding-top: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     width: 80%;
 }
 
@@ -64,19 +23,4 @@ main p {
 
 .inConstruction {
     text-align: center;
-}
-
-footer {
-    background-color: yellow;
-    border: 5px solid black;
-    margin: 0px;
-    padding: 0px;
-}
-
-footer p {
-    margin: auto;
-    padding: 10px;
-    font-size: 12px;
-    text-align: center;
-    width: 50%;
 }

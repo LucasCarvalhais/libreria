@@ -26,7 +26,9 @@ class App extends Component {
             <div>
                 <Header />
                 <Navigation setPageName={this.setPageName} />
-                <MainPage page={page} />
+                <main>
+                    <MainPage page={page} />
+                </main>
                 <Footer />
             </div>
         );
