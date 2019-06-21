@@ -4,6 +4,7 @@ import { Welcome } from './welcome';
 import NewBook from './books/newBook';
 import ListBooks from './books/listBooks';
 import UpdateBook from './books/updateBooks';
+import DeleteBook from './books/deleteBook';
 
 class App extends Component {
     constructor(props) {
@@ -47,6 +48,8 @@ const MainPage = ({ page }) => {
             return <NewBook />;
         case 'update':
             return <UpdateBook />;
+        case 'delete':
+            return <DeleteBook />;
         default:
             return <p className="inConstruction">En construcción...</p>;
     }

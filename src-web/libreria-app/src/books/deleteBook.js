@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { FormSearch } from './updateBooks';
 import { PATH_BASE, PATH_BOOKS } from '../constants';
 import { ErrorMessage } from './listBooks';
-import { Form } from './newBook';
 
-class UpdateBook extends Component {
+class DeleteBook extends Component {
     constructor(props) {
         super(props);
 
@@ -12,30 +12,23 @@ class UpdateBook extends Component {
             bookId: undefined,
             book: {
                 title: '',
-                descriptipn: '',
+                description: '',
                 author: '',
                 edition: undefined,
             },
             successSearch: false,
-            successUpdate: false,
             errorSearch: null,
-            errorUpdate: null,
+            successDelete: false,
+            errorDelete: null,
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     handleChange(event) {
-        const name = event.target.name;
-        if (name === 'bookId') {
-            this.setState({ bookId: event.target.value });
-        } else {
-            const book = this.state.book;
-            book[name] = event.target.value;
-            this.setState({ book });
-        }
+        this.setState({ bookId: event.target.value });
     }
 
     handleSearch(event) {
@@ -43,31 +36,30 @@ class UpdateBook extends Component {
             .then(response => this.setState({
                 book: response.data, 
                 successSearch: true,
-                successUpdate: false,
+                successDelete: false,
                 errorSearch: null,
-                errorUpdate: null }))
+                errorDelete: null }))
             .catch(error => this.setState({ 
                 book: null,
                 successSearch: false,
-                successSearch: false,
+                successDelete: false,
                 errorSearch: error,
-                errorUpdate: null, }));
+                errorDelete: null, }));
         event.preventDefault();
     }
 
-    handleSubmit(event) {
-        axios.put(`${PATH_BASE}${PATH_BOOKS}${this.state.bookId}`, this.state.book)
+    handleDelete() {
+        axios.delete(`${PATH_BASE}${PATH_BOOKS}${this.state.bookId}`)
             .then(() => this.setState({
                 successSearch: false, 
-                successUpdate: true,
+                successDelete: true,
                 errorSearch: null,
-                errorUpdate: null }))
+                errorDelete: null }))
             .catch(error => this.setState({ 
                 successSearch: false,
-                successUpdate: false,
+                successDelete: false,
                 errorSearch: null,
-                errorUpdate: error }));
-        event.preventDefault();
+                errorDelete: error }));
     }
 
     render() {
@@ -75,14 +67,14 @@ class UpdateBook extends Component {
             bookId, 
             book, 
             successSearch, 
-            successUpdate, 
+            successDelete, 
             errorSearch, 
-            errorUpdate 
+            errorDelete 
         } = this.state;
 
         return (
             <div>
-                <h1>Atualizar el libro</h1>
+                <h1>Deletar el libro</h1>
                 {!successSearch && 
                     <FormSearch
                         bookId={bookId}
@@ -90,18 +82,19 @@ class UpdateBook extends Component {
                         handleSearch={this.handleSearch}
                     />
                 }
-                {errorUpdate
-                    ? <ErrorMessage error={errorUpdate} />
-                    : successUpdate && <div className="message">SUceso!</div>
+                {errorDelete
+                    ? <ErrorMessage error={errorDelete} />
+                    : successDelete && <div className="message">SUceso!</div>
                 }
                 {errorSearch
                     ? <ErrorMessage error={errorSearch} />
                     : successSearch
-                        ? <Form
-                            book={book}
-                            handleChange={this.handleChange}
-                            handleSubmit={this.handleSubmit}
-                        />
+                        ? <div>
+                            <p className="message">
+                                Desea remover el libro <em>{book.title}</em>, de <em>{book.author}</em>, cuya descripción es <em>{book.description}</em> y de <em>{book.edition}</em> edición? 
+                            </p>
+                            <button className="submitButton" onClick={() => this.handleDelete()}>Sí, quiero remover este libro.</button>
+                        </div>
                         : <div className="message">
                             <p>Por favor seleciona un código del libro y clica en "Pesquisar".</p>
                         </div>
@@ -111,25 +104,4 @@ class UpdateBook extends Component {
     }
 }
 
-const FormSearch = ({ bookId, handleChange, handleSearch }) => 
-    <form className="formulario">
-        <label>
-            <span className="legend">Pesquisar libro: </span>
-            <input 
-                className="inputForm"
-                type="number"
-                name="bookId"
-                value={bookId}
-                onChange={handleChange}
-            />
-        </label>
-        <input 
-            className="submitButton" 
-            type="submit" 
-            value="Pesquisar"
-            onClick={handleSearch} 
-        />
-    </form>
-
-export default UpdateBook;
-export { FormSearch };
+export default DeleteBook;
