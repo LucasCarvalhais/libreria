@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`header has a valid snapshot 1`] = `
+<header>
+  <h1>
+    Librería de Madrid
+  </h1>
+</header>
+`;

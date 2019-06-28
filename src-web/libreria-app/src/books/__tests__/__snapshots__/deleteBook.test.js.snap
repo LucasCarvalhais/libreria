@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`deleteBook has a valid snapshot 1`] = `
+<div>
+  <h1>
+    Deletar el libro
+  </h1>
+  <form
+    className="formulario"
+  >
+    <label>
+      <span
+        className="legend"
+      >
+        Pesquisar libro: 
+      </span>
+      <input
+        className="inputForm"
+        name="bookId"
+        onChange={[Function]}
+        type="number"
+      />
+    </label>
+    <input
+      className="submitButton"
+      onClick={[Function]}
+      type="submit"
+      value="Pesquisar"
+    />
+  </form>
+  <div
+    className="message"
+  >
+    <p>
+      Por favor seleciona un código del libro y clica en "Pesquisar".
+    </p>
+  </div>
+</div>
+`;

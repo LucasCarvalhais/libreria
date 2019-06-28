@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`newBook has a valid snapshot 1`] = `
+<div>
+  <h1>
+    Cadastrar el nuevo libro
+  </h1>
+  <form
+    className="formulario"
+    onSubmit={[Function]}
+  >
+    <label>
+      <span
+        className="legend"
+      >
+        Título: 
+      </span>
+      <input
+        className="inputForm"
+        name="title"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </label>
+    <br />
+    <label>
+      <span
+        className="legend"
+      >
+        Descripción: 
+      </span>
+      <input
+        className="inputForm"
+        name="description"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </label>
+    <br />
+    <label>
+      <span
+        className="legend"
+      >
+        Autor: 
+      </span>
+      <input
+        className="inputForm"
+        name="author"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </label>
+    <br />
+    <label>
+      <span
+        className="legend"
+      >
+        Edición: 
+      </span>
+      <input
+        className="inputForm"
+        name="edition"
+        onChange={[Function]}
+        type="number"
+      />
+    </label>
+    <br />
+    <input
+      className="submitButton"
+      type="submit"
+      value="Cadastrar"
+    />
+  </form>
+</div>
+`;

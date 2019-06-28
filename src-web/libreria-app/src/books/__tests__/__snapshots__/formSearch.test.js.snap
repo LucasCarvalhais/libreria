@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormSearch has a valid snapshot 1`] = `
+<form
+  className="formulario"
+>
+  <label>
+    <span
+      className="legend"
+    >
+      Pesquisar libro: 
+    </span>
+    <input
+      className="inputForm"
+      name="bookId"
+      type="number"
+    />
+  </label>
+  <input
+    className="submitButton"
+    type="submit"
+    value="Pesquisar"
+  />
+</form>
+`;

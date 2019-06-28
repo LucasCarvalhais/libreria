@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bookTable has a valid snapshot 1`] = `
+<div>
+  <div>
+    <table
+      className="bookTable"
+    >
+      <tbody>
+        <tr>
+          <th>
+            Código
+          </th>
+          <th>
+            Título
+          </th>
+          <th>
+            Descripción
+          </th>
+          <th>
+            Persona autora
+          </th>
+          <th>
+            Edición
+          </th>
+        </tr>
+        <tr>
+          <td>
+            1
+          </td>
+          <td>
+            teste1
+          </td>
+          <td>
+            teste1
+          </td>
+          <td>
+            Lucas
+          </td>
+          <td>
+            1
+          </td>
+        </tr>
+        <tr>
+          <td>
+            2
+          </td>
+          <td>
+            teste2
+          </td>
+          <td>
+            teste2
+          </td>
+          <td>
+            Lucas
+          </td>
+          <td>
+            1
+          </td>
+        </tr>
+        <tr>
+          <td>
+            3
+          </td>
+          <td>
+            teste3
+          </td>
+          <td>
+            teste3
+          </td>
+          <td>
+            Lucas
+          </td>
+          <td>
+            1
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

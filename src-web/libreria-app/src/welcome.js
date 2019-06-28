@@ -6,4 +6,4 @@ const Welcome = () =>
         <p>Elige las opciones arriba para navegar en nuestro sitio</p>
     </div>;
 
-export { Welcome }
+export default Welcome;

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Header, Navigation, Footer } from './pageComponents';
-import { Welcome } from './welcome';
+import Welcome from './welcome';
 import NewBook from './books/newBook';
 import ListBooks from './books/listBooks';
-import UpdateBook from './books/updateBooks';
+import UpdateBook from './books/updateBook';
 import DeleteBook from './books/deleteBook';
 
 class App extends Component {
@@ -35,9 +35,8 @@ class App extends Component {
             </div>
         );
     }
-}
+};
 
-// Verificar se switch vale a pena e se tem alternativas melhores
 const MainPage = ({ page }) => {
     switch (page) {
         case 'home':
@@ -56,3 +55,5 @@ const MainPage = ({ page }) => {
 };
 
 export default App;
+
+export { MainPage };

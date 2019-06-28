@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { PATH_BASE, PATH_BOOKS } from '../constants';
-import { ErrorMessage } from './listBooks';
+import { ErrorMessage } from './errorMessage';
+import { FormBook } from './formBook';
 import './books.css';
 
 class NewBook extends Component {
@@ -46,8 +47,8 @@ class NewBook extends Component {
                 {error 
                     ? <ErrorMessage error={error} />
                     : success 
-                        ? <SuccessMessage />
-                        : <Form 
+                        ? <p className="message">Suceso!</p>
+                        : <FormBook 
                             book={book}
                             handleChange={this.handleChange}
                             handleSubmit={this.handleSubmit} 
@@ -58,53 +59,4 @@ class NewBook extends Component {
     }
 }
 
-const SuccessMessage = () => <p className="message">Suceso!</p>
-
-const Form = ({ book, handleChange, handleSubmit }) => 
-    <form className="formulario" onSubmit={handleSubmit}>
-        <label>
-            <span className="legend">Título: </span>
-            <input
-                className="inputForm" 
-                type="text" 
-                name="title"
-                value={book.title}
-                onChange={handleChange} 
-            />
-        </label><br />
-        <label>
-            <span className="legend">Descripción: </span>
-            <input
-                className="inputForm" 
-                type="text" 
-                name="description" 
-                value={book.description}
-                onChange={handleChange}
-            />
-        </label><br />
-        <label>
-            <span className="legend">Autor: </span>
-            <input
-                className="inputForm" 
-                type="text" 
-                name="author" 
-                value={book.author}
-                onChange={handleChange}
-            />
-        </label><br />
-        <label>
-            <span className="legend">Edición: </span>
-            <input
-                className="inputForm" 
-                type="number" 
-                name="edition" 
-                value={book.edition}
-                onChange={handleChange}
-            />
-        </label><br />
-        <input className="submitButton" type="submit" value="Cadastrar" />
-    </form>
-
 export default NewBook;
-
-export { Form };

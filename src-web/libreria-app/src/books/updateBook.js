@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { PATH_BASE, PATH_BOOKS } from '../constants';
-import { ErrorMessage } from './listBooks';
-import { Form } from './newBook';
+import { ErrorMessage } from './errorMessage';
+import { FormBook } from "./FormBook";
+import { FormSearch } from './formSearch';
 
 class UpdateBook extends Component {
     constructor(props) {
@@ -97,7 +98,7 @@ class UpdateBook extends Component {
                 {errorSearch
                     ? <ErrorMessage error={errorSearch} />
                     : successSearch
-                        ? <Form
+                        ? <FormBook
                             book={book}
                             handleChange={this.handleChange}
                             handleSubmit={this.handleSubmit}
@@ -111,25 +112,4 @@ class UpdateBook extends Component {
     }
 }
 
-const FormSearch = ({ bookId, handleChange, handleSearch }) => 
-    <form className="formulario">
-        <label>
-            <span className="legend">Pesquisar libro: </span>
-            <input 
-                className="inputForm"
-                type="number"
-                name="bookId"
-                value={bookId}
-                onChange={handleChange}
-            />
-        </label>
-        <input 
-            className="submitButton" 
-            type="submit" 
-            value="Pesquisar"
-            onClick={handleSearch} 
-        />
-    </form>
-
 export default UpdateBook;
-export { FormSearch };

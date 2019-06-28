@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigation has a valid snapshot 1`] = `
+<nav>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <p
+            onClick={[Function]}
+          >
+            Pagina de inicio
+          </p>
+        </td>
+        <td>
+          <p
+            onClick={[Function]}
+          >
+            Listar los libros
+          </p>
+        </td>
+        <td>
+          <p
+            onClick={[Function]}
+          >
+            Cadastrar nuevo libro
+          </p>
+        </td>
+        <td>
+          <p
+            onClick={[Function]}
+          >
+            Atualizar el libro
+          </p>
+        </td>
+        <td>
+          <p
+            onClick={[Function]}
+          >
+            Deletar el libro
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</nav>
+`;
