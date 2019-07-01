@@ -135,6 +135,4 @@ public class  BookControllerComponentTest {
                 .andExpect(status().is(204));
     }
 
-    // Teste para PUT /books e DELETE /books ?
-
 }

@@ -32,7 +32,7 @@ class DeleteBook extends Component {
     }
 
     handleSearch(event) {
-        axios.get(`${PATH_BASE}${PATH_BOOKS}${this.state.bookId}`)
+        axios.get(`${PATH_BASE}${PATH_BOOKS}/${this.state.bookId}`)
             .then(response => this.setState({
                 book: response.data, 
                 successSearch: true,
