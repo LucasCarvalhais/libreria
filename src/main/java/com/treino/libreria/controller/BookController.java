@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
@@ -18,13 +19,13 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping("/")
+    @PostMapping
     public Book saveBook(@RequestBody Book book) {
         return bookService.save(book);
     }
 
-    @GetMapping("/")
-    public List<Book> getAllBooks() {
+    @GetMapping
+    public List<Book> getBooks() {
         return bookService.findAll();
     }
 
@@ -44,4 +45,8 @@ public class BookController {
         bookService.deleteById(id);
     }
 
+    @GetMapping(params = "title")
+    public List<Book> getBooks(@RequestParam("title") String title) {
+        return bookService.findByTitle(title);
+    }
 }

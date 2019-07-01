@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,7 +43,7 @@ public class  BookControllerComponentTest {
     public void shouldSaveBook() throws Exception {
         Book book = new Book("Teste", "Testando... Hola, que tal", "Lucas", 2);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/books/")
+        mockMvc.perform(MockMvcRequestBuilders.post("/books")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(objectMapper.writeValueAsString(book))
                     .accept(MediaType.APPLICATION_JSON))
@@ -55,7 +57,7 @@ public class  BookControllerComponentTest {
 
     @Test
     public void shouldListAllAvailableBooks() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/books/"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/books"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
@@ -64,7 +66,7 @@ public class  BookControllerComponentTest {
     public void shouldFindBookById() throws Exception {
         Book book = new Book("Teste", "Testando... Hola, que tal", "Lucas", 2);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/books/")
+        mockMvc.perform(MockMvcRequestBuilders.post("/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(book))
                 .accept(MediaType.APPLICATION_JSON));
@@ -77,11 +79,27 @@ public class  BookControllerComponentTest {
     }
 
     @Test
+    public void shouldFindBookByTitle() throws Exception {
+        Book book = new Book("Teste", "Testando... Hola, que tal", "Lucas", 2);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/books")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(book))
+                .accept(MediaType.APPLICATION_JSON));
+
+        book = bookService.findAll().get(0);
+        mockMvc.perform(MockMvcRequestBuilders.get("/books?title=Teste"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(equalTo(objectMapper.writeValueAsString(Arrays.asList(book)))));
+    }
+
+    @Test
     public void shouldUpdateBook() throws Exception {
         Book oldBook = new Book("Primero", "Libro Viejo", "Lucas", 1);
         Book newBook = new Book("Segundo", "Libro Nuevo", "Lucas", 1);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/books/")
+        mockMvc.perform(MockMvcRequestBuilders.post("/books")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(objectMapper.writeValueAsString(oldBook))
                     .accept(MediaType.APPLICATION_JSON))
@@ -107,7 +125,7 @@ public class  BookControllerComponentTest {
     public void shouldDeleteBookById() throws Exception {
         Book book = new Book("Teste", "Testando... Hola, que tal", "Lucas", 2);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/books/")
+        mockMvc.perform(MockMvcRequestBuilders.post("/books")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(book))
                 .accept(MediaType.APPLICATION_JSON));

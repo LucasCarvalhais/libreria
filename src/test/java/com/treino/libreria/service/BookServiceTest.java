@@ -57,6 +57,18 @@ public class    BookServiceTest {
     }
 
     @Test
+    public void shouldFindBookByTitle() {
+        Book book = new Book("Teste", "testando", "Lucas", 1);
+
+        when(bookRepository.findByTitle("Teste")).thenReturn(Arrays.asList(book));
+        List<Book> bookOutput = bookService.findByTitle("Teste");
+
+        assertThat(bookOutput.get(0), is(book));
+        assertThat(bookOutput.size(), is(1));
+        verify(bookRepository).findByTitle("Teste");
+    }
+
+    @Test
     public void shouldUpdateBook() {
         Book oldBook = new Book("Old", "Libro viejo", "Lucas", 1);
         Book newBook = new Book("new", "Libro nuevo", "Lucas", 1);

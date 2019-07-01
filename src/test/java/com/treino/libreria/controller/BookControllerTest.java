@@ -59,7 +59,7 @@ public class BookControllerTest {
 
         List<Book> books = Arrays.asList(book1, book2);
         when(bookService.findAll()).thenReturn(books);
-        List<Book> booksOutput = bookController.getAllBooks();
+        List<Book> booksOutput = bookController.getBooks();
 
         assertThat(booksOutput).isEqualTo(books);
         verify(bookService).findAll();
@@ -68,7 +68,7 @@ public class BookControllerTest {
     @Test
     public void shouldReturnEmptyListIfThereAreNoBooks() {
         when(bookService.findAll()).thenReturn(Collections.emptyList());
-        List<Book> booksOutput = bookController.getAllBooks();
+        List<Book> booksOutput = bookController.getBooks();
 
         assertThat(booksOutput).isEmpty();
         verify(bookService).findAll();
@@ -86,12 +86,32 @@ public class BookControllerTest {
     }
 
     @Test
+    public void shouldReturnBookByTitle() {
+        Book expectedBook = new Book("Teste", "Teste", "Teste", 1);
+
+        when(bookService.findByTitle("Teste")).thenReturn(Arrays.asList(expectedBook));
+        List<Book> bookOutput = bookController.getBooks("Teste");
+
+        assertThat(bookOutput.get(0)).isEqualTo(expectedBook);
+        verify(bookService).findByTitle("Teste");
+    }
+
+    @Test
     public void shouldThrowExceptionWhenBookIsNotFound() {
         exception.expect(ResourceNotFoundException.class);
 
         when(bookService.findByBookId(2)).thenThrow(ResourceNotFoundException.class);
 
         bookController.getBook(2);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenTitleIsNotFound() {
+        exception.expect(ResourceNotFoundException.class);
+
+        when(bookService.findByTitle("hola")).thenThrow(ResourceNotFoundException.class);
+
+        bookController.getBooks("hola");
     }
 
     @Test

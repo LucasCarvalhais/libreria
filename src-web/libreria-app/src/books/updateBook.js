@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { PATH_BASE, PATH_BOOKS } from '../constants';
 import { ErrorMessage } from './errorMessage';
-import { FormBook } from "./FormBook";
+import { FormBook } from "./formBook";
 import { FormSearch } from './formSearch';
 
 class UpdateBook extends Component {
