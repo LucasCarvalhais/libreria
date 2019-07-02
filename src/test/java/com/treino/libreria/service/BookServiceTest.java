@@ -60,12 +60,50 @@ public class    BookServiceTest {
     public void shouldFindBookByTitle() {
         Book book = new Book("Teste", "testando", "Lucas", 1);
 
-        when(bookRepository.findByTitle("Teste")).thenReturn(Arrays.asList(book));
+        when(bookRepository.findAll()).thenReturn(Arrays.asList(book));
         List<Book> bookOutput = bookService.findByTitle("Teste");
 
         assertThat(bookOutput.get(0), is(book));
         assertThat(bookOutput.size(), is(1));
-        verify(bookRepository).findByTitle("Teste");
+        verify(bookRepository).findAll();
+    }
+
+    @Test
+    public void shouldFindBookByPartOfTitle() {
+        Book book1 = new Book("Mario Kart Stadium", "Teste 1", "Lucas", 1);
+        Book book2 = new Book("Sweet Sweet Canyon", "Teste 2", "Lucas", 2);
+        Book book3 = new Book("Mario Circuit", "Teste 3", "Lucas", 3);
+        Book book4 = new Book("Toad Circuit", "Teste 4", "Lucas", 4);
+        Book book5 = new Book("Rainbow Road", "Teste 5", "Lucas", 5);
+        Book book6 = new Book("Mario Raceway", "Teste 6", "Lucas", 6);
+        Book book7 = new Book("Wario Stadium", "Teste 7", "Lucas", 7);
+        List<Book> booksDB = Arrays.asList(book1, book2, book3, book4, book5, book6, book7);
+        List<Book> expectedOutput = Arrays.asList(book1, book3, book6);
+
+        when(bookRepository.findAll()).thenReturn(booksDB);
+
+        List<Book> output = bookService.findByTitle("Mario");
+
+        assertThat(output, is(expectedOutput));
+    }
+
+    @Test
+    public void shouldFindBookByPartOfTitleIgnoreCaseSensitive() {
+        Book book1 = new Book("Mario Kart Stadium", "Teste 1", "Lucas", 1);
+        Book book2 = new Book("Sweet Sweet Canyon", "Teste 2", "Lucas", 2);
+        Book book3 = new Book("Mario Circuit", "Teste 3", "Lucas", 3);
+        Book book4 = new Book("Toad Circuit", "Teste 4", "Lucas", 4);
+        Book book5 = new Book("Rainbow Road", "Teste 5", "Lucas", 5);
+        Book book6 = new Book("Mario Raceway", "Teste 6", "Lucas", 6);
+        Book book7 = new Book("Wario Stadium", "Teste 7", "Lucas", 7);
+        List<Book> booksDB = Arrays.asList(book1, book2, book3, book4, book5, book6, book7);
+        List<Book> expectedOutput = Arrays.asList(book1, book3, book6);
+
+        when(bookRepository.findAll()).thenReturn(booksDB);
+
+        List<Book> output = bookService.findByTitle("mARIO");
+
+        assertThat(output, is(expectedOutput));
     }
 
     @Test
@@ -96,14 +134,19 @@ public class    BookServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenBookIsNotFound() {
+    public void shouldThrowExceptionWhenBookIdIsNotFound() {
         exception.expect(ResourceNotFoundException.class);
         exception.expectMessage("Libro no encontrado :(");
 
-        when(bookRepository.findByBookId(4)).thenReturn(Optional.empty());
-
         bookService.findByBookId(4);
-        verify(bookRepository).findByBookId(4);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenBookTitleIsNotFound() {
+        exception.expect(ResourceNotFoundException.class);
+        exception.expectMessage("Libro no encontrado :(");
+
+        bookService.findByTitle("test");
     }
 
 }

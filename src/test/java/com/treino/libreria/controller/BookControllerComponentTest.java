@@ -88,7 +88,7 @@ public class  BookControllerComponentTest {
                 .accept(MediaType.APPLICATION_JSON));
 
         book = bookService.findAll().get(0);
-        mockMvc.perform(MockMvcRequestBuilders.get("/books?title=Teste"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/books/title/tes"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().string(equalTo(objectMapper.writeValueAsString(Arrays.asList(book)))));

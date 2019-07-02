@@ -45,8 +45,8 @@ public class BookController {
         bookService.deleteById(id);
     }
 
-    @GetMapping(params = "title")
-    public List<Book> getBooks(@RequestParam("title") String title) {
+    @GetMapping("title/{title}")
+    public List<Book> getBooks(@PathVariable("title") String title) {
         return bookService.findByTitle(title);
     }
 }

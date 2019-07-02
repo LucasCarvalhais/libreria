@@ -5,6 +5,7 @@ import com.treino.libreria.model.Book;
 import com.treino.libreria.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -51,11 +52,19 @@ public class BookService {
     }
 
     public List<Book> findByTitle(String title) {
-        List<Book> books = bookRepository.findByTitle(title);
-        if (!books.isEmpty()) {
-            return books;
-        } else {
+        List<Book> books = bookRepository.findAll();
+        List<Book> booksWithTitle = new ArrayList();
+
+        for (Book book : books) {
+            if (book.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                booksWithTitle.add(book);
+            }
+        }
+
+        if (booksWithTitle.isEmpty()) {
             throw new ResourceNotFoundException("Libro no encontrado :(");
         }
+
+        return booksWithTitle;
     }
 }
