@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { FormSearch } from '../formSearch';
+import { FormSearch } from '../FormSearch';
 
 test('FormSearch has a valid snapshot', () => {
     const component = renderer.create(

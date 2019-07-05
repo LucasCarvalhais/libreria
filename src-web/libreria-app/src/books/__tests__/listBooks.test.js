@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
-import ListBooks from '../listBooks';
+import ListBooks from '../ListBooks';
 
 test('listBooks renderers without crashing', () => {
     const div = document.createElement('div');

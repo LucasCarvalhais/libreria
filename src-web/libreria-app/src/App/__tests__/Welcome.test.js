@@ -1,12 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { Header } from '../pageComponents';
+import Welcome from '../Welcome';
 
-test('header has a valid snapshot', () => {
+test('Welcome has a valid snapshot', () => {
     const component = renderer.create(
-        <Header />
-    )
+        <Welcome />
+    );
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
 });
-

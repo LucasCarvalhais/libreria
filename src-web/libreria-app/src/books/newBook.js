@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { PATH_BASE, PATH_BOOKS } from '../constants';
-import { ErrorMessage } from './errorMessage';
-import { FormBook } from './formBook';
-import './books.css';
+import { PATH_BASE, PATH_BOOKS } from '../Constants';
+import { ErrorMessage } from './ErrorMessage';
+import { FormBook } from './FormBook';
+import './Books.css';
 
 class NewBook extends Component {
     constructor(props) {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { FormSearch } from './formSearch';
-import { PATH_BASE, PATH_BOOKS } from '../constants';
-import { ErrorMessage } from './errorMessage';
+import { FormSearch } from './FormSearch';
+import { PATH_BASE, PATH_BOOKS } from '../Constants';
+import { ErrorMessage } from './ErrorMessage';
 
 class DeleteBook extends Component {
     constructor(props) {

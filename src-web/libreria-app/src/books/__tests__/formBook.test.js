@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { FormBook } from '../formBook';
+import { FormBook } from '../FormBook';
 
 const book = { title: 'Teste', description: 'Teste', author: 'teste', edition: 1, };
 

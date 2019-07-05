@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import renderer from 'react-test-renderer';
-import NewBook from '../newBook';
+import NewBook from '../NewBook';
 
 test('newBook renders without crashing', () => {
     const div = document.createElement('div');

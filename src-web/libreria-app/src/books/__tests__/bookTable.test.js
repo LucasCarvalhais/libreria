@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { BookTable } from '../bookTable';
+import { BookTable } from '../BookTable';
 
 const props = {
     books: [

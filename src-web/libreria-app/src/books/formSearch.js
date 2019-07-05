@@ -1,4 +1,5 @@
 import React from 'react';
+
 export const FormSearch = ({ bookId, handleChange, handleSearch }) => <form className="formulario">
     <label>
         <span className="legend">Pesquisar libro: </span>

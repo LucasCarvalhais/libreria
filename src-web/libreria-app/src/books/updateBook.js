@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { PATH_BASE, PATH_BOOKS } from '../constants';
-import { ErrorMessage } from './errorMessage';
-import { FormBook } from "./formBook";
-import { FormSearch } from './formSearch';
+import { PATH_BASE, PATH_BOOKS } from '../Constants';
+import { ErrorMessage } from './ErrorMessage';
+import { FormBook } from "./FormBook";
+import { FormSearch } from './FormSearch';
 
 class UpdateBook extends Component {
     constructor(props) {
@@ -112,4 +112,4 @@ class UpdateBook extends Component {
     }
 }
 
-export default UpdateBook;
+export default UpdateBook;  

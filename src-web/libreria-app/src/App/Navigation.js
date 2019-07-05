@@ -1,12 +1,7 @@
 import React from 'react';
-import './pageComponents.css';
+import './Navigation.css';
 
-const Header = () => 
-    <header>
-        <h1>Librería de Madrid</h1>
-    </header>;
-
-const Navigation = ({ setPageName }) => 
+export const Navigation = ({ setPageName }) => 
     <nav>
         <table>
             <tbody>
@@ -30,16 +25,3 @@ const Navigation = ({ setPageName }) =>
             </tbody>
         </table>
     </nav>
-
-const Footer = () => 
-    <footer>
-        <p>
-            En construcción... No es un sitio oficial, sólo un sitio para practicar el uso de Spring (back-end) y React (front-end). ¡Cualquier feedback or sugerencias son muy bienvenidas! :D
-            </p>
-    </footer>;
-
-export {
-    Header,
-    Navigation,
-    Footer
-}

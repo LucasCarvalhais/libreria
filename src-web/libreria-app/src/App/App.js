@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Header, Navigation, Footer } from './pageComponents';
-import Welcome from './welcome';
-import NewBook from './books/newBook';
-import ListBooks from './books/listBooks';
-import UpdateBook from './books/updateBook';
-import DeleteBook from './books/deleteBook';
+import { Navigation } from './Navigation';
+import Welcome from './Welcome';
+import { NewBook, ListBooks, UpdateBook, DeleteBook } from '../Books';
 
 class App extends Component {
     constructor(props) {
@@ -26,12 +23,18 @@ class App extends Component {
 
         return (
             <div>
-                <Header />
+                <header>
+                    <h1>Librería de Madrid</h1>
+                </header>
                 <Navigation setPageName={this.setPageName} />
                 <main>
                     <MainPage page={page} />
                 </main>
-                <Footer />
+                <footer>
+                    <p>
+                        En construcción... No es un sitio oficial, sólo un sitio para practicar el uso de Spring (back-end) y React (front-end). ¡Cualquier feedback or sugerencias son muy bienvenidas! :D
+                    </p>
+                </footer>
             </div>
         );
     }
