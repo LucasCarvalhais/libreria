@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import renderer from 'react-test-renderer';
 import App, { MainPage } from '../App';
+import { shallow } from 'enzyme';
 
 test('App renders without crashing', () => {
     const div = document.createElement('div');
@@ -9,65 +9,56 @@ test('App renders without crashing', () => {
     ReactDom.unmountComponentAtNode(div);
 });
 
-test('App has a valid snapshot', () => {
-    const component = renderer.create(
-        <App />
-    );
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+describe('App', () => {
+    test('should contain header', () => {
+        const component = shallow(<App />);
+        expect(component.find('header')).toHaveLength(1);
+    });
+
+    test('should contain navigation', () => {
+        const component = shallow(<App />);
+        expect(component.find('Navigation')).toHaveLength(1);
+    });
+
+    test('should contain main', () => {
+        const component = shallow(<App />);
+        expect(component.find('main')).toHaveLength(1);
+    });
+
+    test('should contain footer', () => {
+        const component = shallow(<App />);
+        expect(component.find('footer')).toHaveLength(1);
+    });
 });
 
-describe('Renders specific components', () => {
+describe('MainPage', () => {
     test('should render welcome page', () => {
-        const component = renderer.create(
-            <MainPage page='home' />
-        );
-        const tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
-        expect(JSON.stringify(tree)).toContain('¡Bienvenido a Librería de Madrid!');
+        const component = shallow(<MainPage page='home'/>);
+        expect(component.find('Welcome')).toHaveLength(1);
     });
 
     test('should render list books page', () => {
-        const component = renderer.create(
-            <MainPage page='list' />
-        );
-        const tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
-        expect(JSON.stringify(tree)).toContain('Lista de los libros');
+        const component = shallow(<MainPage page='list'/>);
+        expect(component.find('ListBooks')).toHaveLength(1);
     });
 
     test('should render new book page', () => {
-        const component = renderer.create(
-            <MainPage page='create' />
-        );
-        const tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
-        expect(JSON.stringify(tree)).toContain('Cadastrar el nuevo libro');
+        const component = shallow(<MainPage page='create'/>);
+        expect(component.find('NewBook')).toHaveLength(1);
     });
 
     test('should render update book page', () => {
-        const component = renderer.create(
-            <MainPage page='update' />
-        );
-        const tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
-        expect(JSON.stringify(tree)).toContain('Atualizar el libro');
+        const component = shallow(<MainPage page='update'/>);
+        expect(component.find('UpdateBook')).toHaveLength(1);
     });
 
     test('should render delete book page', () => {
-        const component = renderer.create(
-            <MainPage page='delete' />
-        );
-        const tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
-        expect(JSON.stringify(tree)).toContain('Deletar el libro');
+        const component = shallow(<MainPage page='delete'/>);
+        expect(component.find('DeleteBook')).toHaveLength(1);
     });
 
     test('should render in construcction page', () => {
-        const component = renderer.create(
-            <MainPage page='none' />
-        );
-        const tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
+        const component = shallow(<MainPage page='test'/>);
+        expect(component.find('.inConstruction')).toHaveLength(1);
     });
 });
