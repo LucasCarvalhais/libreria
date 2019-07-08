@@ -1,11 +1,33 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { mount } from 'enzyme';
 import { FormSearch } from '../FormSearch';
 
-test('FormSearch has a valid snapshot', () => {
-    const component = renderer.create(
-        <FormSearch />
+const handleChange = jest.fn();
+const handleSubmit = jest.fn();
+
+const bookId = 1;
+
+describe('FormSearch', () => {
+    const form = mount(
+        <FormSearch 
+            bookId={bookId} 
+            handleChange={handleChange} 
+            handleSubmit={handleSubmit} 
+        />
     );
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
-});
+    
+    test('should call the function when input changes', () => {
+        const input = form.find('input').at(0);
+        input.simulate('change');
+        expect(handleChange).toHaveBeenCalled();
+    });
+
+    test('should have values according of the book', () => {
+        expect(form.find('input').at(0).props().value).toBe(1);
+    });
+
+    test('should call the function of submit when form submits', () => {
+        form.simulate('submit');
+        expect(handleSubmit).toHaveBeenCalled();
+    });
+})

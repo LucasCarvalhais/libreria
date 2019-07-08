@@ -79,7 +79,7 @@ class DeleteBook extends Component {
                     <FormSearch
                         bookId={bookId}
                         handleChange={this.handleChange}
-                        handleSearch={this.handleSearch}
+                        handleSubmit={this.handleSearch}
                     />
                 }
                 {errorDelete

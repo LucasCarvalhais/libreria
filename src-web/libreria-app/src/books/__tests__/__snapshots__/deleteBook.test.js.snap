@@ -7,6 +7,7 @@ exports[`deleteBook has a valid snapshot 1`] = `
   </h1>
   <form
     className="formulario"
+    onSubmit={[Function]}
   >
     <label>
       <span
@@ -23,7 +24,6 @@ exports[`deleteBook has a valid snapshot 1`] = `
     </label>
     <input
       className="submitButton"
-      onClick={[Function]}
       type="submit"
       value="Pesquisar"
     />

@@ -32,10 +32,10 @@ describe('FormBook', () => {
         expect(form.find('input').at(1).props().value).toBe('Teste2');
         expect(form.find('input').at(2).props().value).toBe('Teste3');
         expect(form.find('input').at(3).props().value).toBe(2);
-    })
+    });
 
     test('should call the function of submit when form submits', () => {
         form.simulate('submit');
         expect(handleSubmit).toHaveBeenCalled();
-    })
+    });
 })
