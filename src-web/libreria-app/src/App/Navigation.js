@@ -1,26 +1,25 @@
 import React from 'react';
-import './Navigation.css';
 
 export const Navigation = ({ setPageName }) => 
     <nav>
         <table>
             <tbody>
                 <tr>
-                    <td><p onClick={() => setPageName('home')}>
+                    <td onClick={() => setPageName('home')}>
                         Pagina de inicio
-                    </p></td>
-                    <td><p onClick={() => setPageName('list')}>
+                    </td>
+                    <td onClick={() => setPageName('list')}>
                         Listar los libros
-                    </p></td>
-                    <td><p onClick={() => setPageName('create')}>
+                    </td>
+                    <td onClick={() => setPageName('create')}>
                         Cadastrar nuevo libro
-                    </p></td>
-                    <td><p onClick={() => setPageName('update')}>
+                    </td>
+                    <td onClick={() => setPageName('update')}>
                         Atualizar el libro
-                    </p></td>
-                    <td><p onClick={() => setPageName('delete')}>
+                    </td>
+                    <td onClick={() => setPageName('delete')}>
                         Deletar el libro
-                    </p></td>
+                    </td>
                 </tr>
             </tbody>
         </table>

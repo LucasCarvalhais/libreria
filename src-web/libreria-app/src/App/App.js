@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Navigation } from './Navigation';
-import Welcome from './Welcome';
+import { Welcome } from './Welcome';
 import { NewBook, ListBooks, UpdateBook, DeleteBook } from '../Books';
+import './App.css';
 
 class App extends Component {
     constructor(props) {

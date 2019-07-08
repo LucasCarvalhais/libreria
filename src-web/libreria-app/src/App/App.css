@@ -4,7 +4,14 @@ header {
     font-family: 'Playfair Display', serif;
     font-size: 30px;
     color: #FFF;
-    text-shadow: 3px 0px 5px darkred, 0px 3px 5px darkred, -3px 0px 5px darkred, 0px -3px 5px darkred;
+    text-shadow:  3px  3px 5px darkred,
+                 -3px  3px 5px darkred,
+                  3px -3px 5px darkred,
+                 -3px -3px 5px darkred,
+                  3px  0px 5px darkred,
+                  0px  3px 5px darkred,
+                 -3px  0px 5px darkred,
+                  0px -3px 5px darkred;
     text-align: center;
 }
 
@@ -26,19 +33,42 @@ nav table, td {
 }
 
 nav td {
+    padding: 10px;
     font-size: 18px;
     text-align: center;
-}
-
-nav p {
-    margin: 0px;
-    padding: 10px;
 }
 
 nav td:hover {
     background-color: #CCCC00;
     text-decoration: underline;
     cursor: pointer;
+}
+
+main {
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+main h1 {
+    padding: 10px;
+    text-align: center;
+    font-size: 40px;
+}
+
+main h2 {
+    padding: 10px;
+    text-align: center;
+    font-size: 36px;
+}
+
+main p {
+    font-size: 18px;
+}
+
+.inConstruction {
+    text-align: center;
 }
 
 footer {
