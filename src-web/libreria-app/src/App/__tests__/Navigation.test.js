@@ -1,22 +1,43 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { shallow } from 'enzyme';
 import { Navigation } from '../Navigation';
 
 const setPageName = jest.fn();
 
-test('Navigation has a valid snapshot', () => {
-    const component = renderer.create(<Navigation setPageName={setPageName} />);
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
-});
+describe('Navigation', () => {
+    test('call setPageName with "home" when click on first item', () => {
+        const component = shallow(<Navigation setPageName={setPageName} />);
+        const lListBooksComponent = component.find('p').at(0);
+        lListBooksComponent.simulate('click');
+        expect(setPageName).toBeCalledWith('home');
+    });
+    
+    test('call setPageName with "list" when click on second item', () => {
+        const component = shallow(<Navigation setPageName={setPageName} />);
+        const lListBooksComponent = component.find('p').at(1);
+        lListBooksComponent.simulate('click');
+        expect(setPageName).toBeCalledWith('list');
+    });
+    
+    test('call setPageName with "create" when click on third item', () => {
+        const component = shallow(<Navigation setPageName={setPageName} />);
+        const lListBooksComponent = component.find('p').at(2);
+        lListBooksComponent.simulate('click');
+        expect(setPageName).toBeCalledWith('create');
+    });
 
-test('quando clicar no menu "Listar livros", deve ser informada a página correspondente', () => {
-    const component = renderer.create(
-        <Navigation setPageName={setPageName} />
-    );
-    const listarLivro = component.root.findAllByType('td')[1];
-    // Em teoria:
-    // - pegar o elemento td
-    // - simular o evento onClick
-    // - expect(setPageName).toBeCalledWith('list');
-})
+    test('call setPageName with "update" when click on fourth item', () => {
+        const component = shallow(<Navigation setPageName={setPageName} />);
+        const lListBooksComponent = component.find('p').at(3);
+        lListBooksComponent.simulate('click');
+        expect(setPageName).toBeCalledWith('update');
+    });
+    
+    test('call setPageName with "delete" when click on fifth item', () => {
+        const component = shallow(<Navigation setPageName={setPageName} />);
+        const lListBooksComponent = component.find('p').at(4);
+        lListBooksComponent.simulate('click');
+        expect(setPageName).toBeCalledWith('delete');
+    });
+});
