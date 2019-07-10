@@ -18,11 +18,14 @@ class ListBooks extends Component {
         this.fetchBooks = this.fetchBooks.bind(this);
     }
     
-    fetchBooks() {
+    async fetchBooks() {
         this.setState({ isLoading: true });
 
-        axios.get(`${PATH_BASE}${PATH_BOOKS}`)
-            .then(result => this.setState({ books: result.data, isLoading: false }))
+        await axios.get(`${PATH_BASE}${PATH_BOOKS}`)
+            .then(result => this.setState({ 
+                books: result.data, 
+                isLoading: false 
+            }))
             .catch(error => this.setState({ error }));
     }
 

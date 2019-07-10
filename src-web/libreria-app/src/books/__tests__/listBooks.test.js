@@ -1,19 +1,35 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import renderer from 'react-test-renderer';
 import ListBooks from '../ListBooks';
+import { mount } from 'enzyme';
+import axios from 'axios';
 
-test('listBooks renderers without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<ListBooks />, div);
+jest.mock('axios');
+
+describe('ListBooks', () => {
+    test('should load books', async () => {
+        const response = {
+            data: [{
+                bookId: 1,
+                title: "Un",
+                description: "Uno",
+                author: "One",
+                edition: 1,
+            },
+            {
+                bookId: 2,
+                title: "Deux",
+                description: "Dos",
+                author: "Two",
+                edition: 1,
+            }]
+        };
+        axios.get.mockResolvedValue(response);
+        const component = mount(<ListBooks />);
+        expect(component.state('isLoading')).toBe(true);
+        await component.update();
+        expect(component.state('isLoading')).toBe(false);
+        expect(component.state('books')).toBe(response.data);
+    });
 });
 
-test('listBooks has a valid snapshot', () => {
-    const component = renderer.create(
-        <ListBooks />
-    );
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
-})
-
-
+// How to test when axios fails?
