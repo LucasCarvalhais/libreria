@@ -39,6 +39,6 @@ describe('BookTable', () => {
         props.isLoading = false;
         const component = shallow(<BookTable { ...props } />);
         expect(component.find('tr')).toHaveLength(0);
-        expect(component.find('.loading')).toHaveLength(1);    
+        expect(component.find('.loading')).toHaveLength(1);
     });
 });

@@ -83,13 +83,13 @@ class DeleteBook extends Component {
                     />
                 }
                 {errorDelete
-                    ? <ErrorMessage error={errorDelete} />
-                    : successDelete && <div className="message">SUceso!</div>
+                    ? <ErrorMessage className="errorDelete" error={errorDelete} />
+                    : successDelete && <div className="messageSuccess"><p className="message">SUceso!</p></div>
                 }
                 {errorSearch
-                    ? <ErrorMessage error={errorSearch} />
+                    ? <ErrorMessage className="errorSearch" error={errorSearch} />
                     : successSearch
-                        ? <div>
+                        ? <div className="messageDelete">
                             <p className="message">
                                 Desea remover el libro <em>{book.title}</em>, de <em>{book.author}</em>, cuya descripción es <em>{book.description}</em> y de <em>{book.edition}</em> edición? 
                             </p>
