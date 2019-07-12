@@ -51,5 +51,16 @@ describe('DeleteBook', () => {
         });
         expect(component.find('.errorDelete')).toHaveLength(1);
     });
+
+    test('should call handleDelete after clicking on delete button', () => {
+        const component = shallow(<DeleteBook />).setState({
+            successSearch: true,
+            successDelete: false,
+            errorSearch: null,
+            errorDelete: null,
+        });
+        component.find('.messageDelete').find('button').simulate('click');
+        expect(component.prop('handleDelete')).toHaveBeenCalled;
+    });
 });
 
