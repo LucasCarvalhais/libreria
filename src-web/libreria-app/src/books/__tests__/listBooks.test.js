@@ -25,10 +25,10 @@ describe('ListBooks', () => {
         };
         axios.get.mockResolvedValue(response);
         const component = mount(<ListBooks />);
-        expect(component.state('isLoading')).toBe(true);
-        await component.update();
-        expect(component.state('isLoading')).toBe(false);
-        expect(component.state('books')).toBe(response.data);
+        const instance = component.instance();
+        await instance.componentDidMount();
+        expect(instance.state.isLoading).toBe(false);
+        expect(instance.state.books).toBe(response.data);
     });
 });
 

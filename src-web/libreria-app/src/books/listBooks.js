@@ -18,10 +18,9 @@ class ListBooks extends Component {
         this.fetchBooks = this.fetchBooks.bind(this);
     }
     
-    async fetchBooks() {
+    fetchBooks() {
         this.setState({ isLoading: true });
-
-        await axios.get(`${PATH_BASE}${PATH_BOOKS}`)
+        axios.get(`${PATH_BASE}${PATH_BOOKS}`)
             .then(result => this.setState({ 
                 books: result.data, 
                 isLoading: false 

@@ -5,7 +5,7 @@ import { FormSearch } from '../FormSearch';
 const handleChange = jest.fn();
 const handleSubmit = jest.fn();
 
-const bookId = 1;
+const bookId = 8;
 
 describe('FormSearch', () => {
     const form = mount(
@@ -23,7 +23,7 @@ describe('FormSearch', () => {
     });
 
     test('should have values according of the book', () => {
-        expect(form.find('input').at(0).props().value).toBe(1);
+        expect(form.find('input').at(0).props().value).toBe(8);
     });
 
     test('should call the function of submit when form submits', () => {
