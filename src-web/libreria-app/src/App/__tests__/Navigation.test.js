@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Navigation } from '../Navigation';
+import Navigation from '../Navigation';
 
 const setPageName = jest.fn();
 

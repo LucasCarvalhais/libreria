@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Navigation } from './Navigation';
-import { Welcome } from './Welcome';
-import { NewBook, ListBooks, UpdateBook, DeleteBook } from '../Books';
+import Navigation from './Navigation';
+import MainPage from './MainPage';
 import './App.css';
 
 class App extends Component {
@@ -41,23 +40,4 @@ class App extends Component {
     }
 };
 
-const MainPage = ({ page }) => {
-    switch (page) {
-        case 'home':
-            return <Welcome />;
-        case 'list':
-            return <ListBooks />;
-        case 'create':
-            return <NewBook />;
-        case 'update':
-            return <UpdateBook />;
-        case 'delete':
-            return <DeleteBook />;
-        default:
-            return <p className="inConstruction">En construcción...</p>;
-    }
-};
-
 export default App;
-
-export { MainPage };

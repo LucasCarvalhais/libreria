@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Navigation = ({ setPageName }) => 
+const Navigation = ({ setPageName }) => 
     <nav>
         <table>
             <tbody>
@@ -24,3 +24,5 @@ export const Navigation = ({ setPageName }) =>
             </tbody>
         </table>
     </nav>
+
+export default Navigation;
