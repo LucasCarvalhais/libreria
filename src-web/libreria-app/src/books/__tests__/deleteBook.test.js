@@ -1,15 +1,11 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import DeleteBook from '../DeleteBook';
 import { shallow } from 'enzyme';
-import { FormSearch } from '../FormSearch';
-
-const handleDelete = jest.fn();
+import DeleteBook from '../DeleteBook';
 
 describe('DeleteBook', () => {
     test('should show form to search book', () => {
         const component = shallow(<DeleteBook />);
-        expect(component.find(FormSearch)).toHaveLength(1);
+        expect(component.find('FormSearch')).toHaveLength(1);
     });
 
     test('should show message to delete after searching', () => {
@@ -20,6 +16,17 @@ describe('DeleteBook', () => {
             errorDelete: null,
         });
         expect(component.find('.messageDelete')).toHaveLength(1);
+    });
+
+    test('should call handleDelete after clicking on delete button', () => {
+        const component = shallow(<DeleteBook />).setState({
+            successSearch: true,
+            successDelete: false,
+            errorSearch: null,
+            errorDelete: null,
+        });
+        component.find('.messageDelete').find('button').simulate('click');
+        expect(component.prop('handleDelete')).toHaveBeenCalled;
     });
 
     test('should show success message after deleting', () => {
@@ -50,17 +57,6 @@ describe('DeleteBook', () => {
             errorDelete: 'Error',
         });
         expect(component.find('.errorDelete')).toHaveLength(1);
-    });
-
-    test('should call handleDelete after clicking on delete button', () => {
-        const component = shallow(<DeleteBook />).setState({
-            successSearch: true,
-            successDelete: false,
-            errorSearch: null,
-            errorDelete: null,
-        });
-        component.find('.messageDelete').find('button').simulate('click');
-        expect(component.prop('handleDelete')).toHaveBeenCalled;
     });
 });
 

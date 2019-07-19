@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './Books.css';
 import { PATH_BASE, PATH_BOOKS } from '../Constants';
-import { ErrorMessage } from './ErrorMessage';
-import { BookTable } from './BookTable';
+import ErrorMessage from './ErrorMessage';
+import BookTable from './BookTable';
 
 class ListBooks extends Component {
     constructor(props) {

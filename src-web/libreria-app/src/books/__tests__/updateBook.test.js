@@ -1,9 +1,6 @@
 import React from 'react';
-import UpdateBook from '../UpdateBook';
 import { shallow } from 'enzyme';
-import { FormSearch } from '../FormSearch';
-import { FormBook } from '../FormBook';
-import { ErrorMessage } from '../ErrorMessage';
+import UpdateBook from '../UpdateBook';
 
 describe('UpdateBook', () => {
     test('should show the form to search book', () => {
@@ -13,7 +10,7 @@ describe('UpdateBook', () => {
             errorSearch: null,
             errorUpdate: null,
         });
-        expect(component.find(FormSearch)).toHaveLength(1);
+        expect(component.find('FormSearch')).toHaveLength(1);
     });
 
     test('should show the form to update book', () => {
@@ -23,7 +20,7 @@ describe('UpdateBook', () => {
             errorSearch: null,
             errorUpdate: null,
         });
-        expect(component.find(FormBook)).toHaveLength(1);
+        expect(component.find('FormBook')).toHaveLength(1);
     });
 
     test('should show the success message', () => {
@@ -43,6 +40,6 @@ describe('UpdateBook', () => {
             errorSearch: 'Error',
             errorUpdate: null,
         });
-        expect(component.find(ErrorMessage)).toHaveLength(1);
+        expect(component.find('ErrorMessage')).toHaveLength(1);
     });
 });

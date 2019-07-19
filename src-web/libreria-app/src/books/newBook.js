@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { PATH_BASE, PATH_BOOKS } from '../Constants';
-import { ErrorMessage } from './ErrorMessage';
-import { FormBook } from './FormBook';
+import ErrorMessage from './ErrorMessage';
+import FormBook from './FormBook';
 import './Books.css';
 
 class NewBook extends Component {

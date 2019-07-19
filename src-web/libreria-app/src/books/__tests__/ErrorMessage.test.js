@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'enzyme';
-import { ErrorMessage } from '../ErrorMessage';
+import ErrorMessage from '../ErrorMessage';
 
 const error = 'No Network Available';
 

@@ -1,13 +1,11 @@
 import React from 'react';
-import NewBook from '../NewBook';
 import { shallow } from 'enzyme';
-import { ErrorMessage } from '../ErrorMessage';
-import { FormBook } from '../FormBook';
+import NewBook from '../NewBook';
 
 describe('NewBook', () => {
     test('should show error message', () => {
         const component = shallow(<NewBook />).setState({ error: 'No NetWork' });
-        expect(component.find(ErrorMessage)).toHaveLength(1);
+        expect(component.find('ErrorMessage')).toHaveLength(1);
     });
 
     test('should show success message', () => {
@@ -17,6 +15,6 @@ describe('NewBook', () => {
 
     test('should show the form', () => {
         const component = shallow(<NewBook />);
-        expect(component.find(FormBook)).toHaveLength(1);
+        expect(component.find('FormBook')).toHaveLength(1);
     });
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { FormSearch } from '../FormSearch';
+import FormSearch from '../FormSearch';
 
 const handleChange = jest.fn();
 const handleSubmit = jest.fn();
@@ -8,13 +8,11 @@ const handleSubmit = jest.fn();
 const bookId = 8;
 
 describe('FormSearch', () => {
-    const form = mount(
-        <FormSearch 
-            bookId={bookId} 
-            handleChange={handleChange} 
-            handleSubmit={handleSubmit} 
-        />
-    );
+    const form = mount(<FormSearch 
+        bookId={bookId} 
+        handleChange={handleChange} 
+        handleSubmit={handleSubmit} 
+    />);
     
     test('should call the function when input changes', () => {
         const input = form.find('input').at(0);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const FormBook = ({ book, handleChange, handleSubmit }) => 
+const FormBook = ({ book, handleChange, handleSubmit }) => 
     <form className="formulario" onSubmit={handleSubmit}>
         <label>
             <span className="legend">Título: </span>
@@ -20,3 +20,5 @@ export const FormBook = ({ book, handleChange, handleSubmit }) =>
         </label><br />
         <input className="submitButton" type="submit" value="Cadastrar" />
     </form>;
+
+export default FormBook;

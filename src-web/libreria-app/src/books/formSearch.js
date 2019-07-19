@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const FormSearch = ({ bookId, handleChange, handleSubmit }) => 
+const FormSearch = ({ bookId, handleChange, handleSubmit }) => 
     <form className="formulario" onSubmit={handleSubmit}>
         <label>
             <span className="legend">Pesquisar libro: </span>
@@ -8,3 +8,5 @@ export const FormSearch = ({ bookId, handleChange, handleSubmit }) =>
         </label>
         <input className="submitButton" type="submit" value="Pesquisar" />
     </form>;
+
+export default FormSearch;
