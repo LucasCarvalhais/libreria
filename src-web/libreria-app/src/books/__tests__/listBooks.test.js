@@ -1,35 +1,37 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import axios from 'axios';
 import ListBooks from '../ListBooks';
 
-jest.mock('axios');
+const books = [{
+    bookId: 1,
+    title: "Un",
+    description: "Uno",
+    author: "One",
+    edition: 1,
+},
+{
+    bookId: 2,
+    title: "Deux",
+    description: "Dos",
+    author: "Two",
+    edition: 1,
+}];
 
 describe('ListBooks', () => {
-    test('should load books', async () => {
-        const response = {
-            data: [{
-                bookId: 1,
-                title: "Un",
-                description: "Uno",
-                author: "One",
-                edition: 1,
-            },
-            {
-                bookId: 2,
-                title: "Deux",
-                description: "Dos",
-                author: "Two",
-                edition: 1,
-            }]
-        };
-        axios.get.mockResolvedValue(response);
-        const component = mount(<ListBooks />);
-        const instance = component.instance();
-        await instance.componentDidMount();
-        expect(instance.state.isLoading).toBe(false);
-        expect(instance.state.books).toBe(response.data);
+    test('should show book table', () => {
+        const component = shallow(<ListBooks />).setState({
+            books: books,
+            error: null,
+        });
+        expect(component.find('BookTable')).toHaveLength(1);
+    });
+
+    test('should show error message', () => {
+        const component = shallow(<ListBooks />).setState({
+            books: [],
+            error: 'Error',
+        });
+        expect(component.find('ErrorMessage')).toHaveLength(1);
     });
 });
-
-// How to test when axios fails?
