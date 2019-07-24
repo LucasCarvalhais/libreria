@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { PATH_BASE, PATH_BOOKS } from '../Constants';
 import FormSearch from './FormSearch';
 import ErrorMessage from './ErrorMessage';
+import { getBookById, deleteBook } from './bookService';
 
 class DeleteBook extends Component {
     constructor(props) {
@@ -31,35 +30,47 @@ class DeleteBook extends Component {
         this.setState({ bookId: event.target.value });
     }
 
-    handleSearch(event) {
-        axios.get(`${PATH_BASE}${PATH_BOOKS}/${this.state.bookId}`)
-            .then(response => this.setState({
+    async handleSearch(event) {
+        event.preventDefault();
+        const bookId = this.state.bookId;
+        const { response, err, success } = await getBookById(bookId);
+        if (success) {
+            this.setState({
                 book: response.data, 
                 successSearch: true,
                 successDelete: false,
                 errorSearch: null,
-                errorDelete: null }))
-            .catch(error => this.setState({ 
+                errorDelete: null 
+            });
+        } else {
+            this.setState({ 
                 book: null,
                 successSearch: false,
                 successDelete: false,
-                errorSearch: error,
-                errorDelete: null, }));
-        event.preventDefault();
+                errorSearch: err,
+                errorDelete: null, 
+            });
+        }
     }
 
-    handleDelete() {
-        axios.delete(`${PATH_BASE}${PATH_BOOKS}${this.state.bookId}`)
-            .then(() => this.setState({
+    async handleDelete() {
+        const bookId = this.state.bookId;
+        const { success, err } = await deleteBook(bookId);
+        if (success) {
+            this.setState({
                 successSearch: false, 
                 successDelete: true,
                 errorSearch: null,
-                errorDelete: null }))
-            .catch(error => this.setState({ 
+                errorDelete: null 
+            });
+        } else {
+            this.setState({ 
                 successSearch: false,
                 successDelete: false,
                 errorSearch: null,
-                errorDelete: error }));
+                errorDelete: err 
+            });
+        }
     }
 
     render() {

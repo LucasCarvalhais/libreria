@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { PATH_BASE, PATH_BOOKS } from '../Constants';
 import ErrorMessage from './ErrorMessage';
 import FormBook from "./FormBook";
 import FormSearch from './FormSearch';
+import { getBookById, updateBook } from './bookService';
 
 class UpdateBook extends Component {
     constructor(props) {
@@ -39,36 +38,49 @@ class UpdateBook extends Component {
         }
     }
 
-    handleSearch(event) {
-        axios.get(`${PATH_BASE}${PATH_BOOKS}/${this.state.bookId}`)
-            .then(response => this.setState({
+    async handleSearch(event) {
+        event.preventDefault();
+        const bookId = this.state.bookId;
+        const { response, err, success } = await getBookById(bookId);
+        if (success) {
+            this.setState({
                 book: response.data, 
                 successSearch: true,
                 successUpdate: false,
                 errorSearch: null,
-                errorUpdate: null }))
-            .catch(error => this.setState({ 
+                errorUpdate: null 
+            });
+        } else {
+            this.setState({ 
                 book: null,
                 successSearch: false,
                 successSearch: false,
-                errorSearch: error,
-                errorUpdate: null, }));
-        event.preventDefault();
+                errorSearch: err,
+                errorUpdate: null, 
+            });
+        }
     }
 
-    handleSubmit(event) {
-        axios.put(`${PATH_BASE}${PATH_BOOKS}${this.state.bookId}`, this.state.book)
-            .then(() => this.setState({
+    async handleSubmit(event) {
+        event.preventDefault();
+        const bookId = this.state.bookId;
+        const book = this.state.book;
+        const { success, err } = await updateBook(bookId, book);
+        if (success) {
+            this.setState({
                 successSearch: false, 
                 successUpdate: true,
                 errorSearch: null,
-                errorUpdate: null }))
-            .catch(error => this.setState({ 
+                errorUpdate: null 
+            });
+        } else {
+            this.setState({ 
                 successSearch: false,
                 successUpdate: false,
                 errorSearch: null,
-                errorUpdate: error }));
-        event.preventDefault();
+                errorUpdate: err, 
+            });
+        }
     }
 
     render() {
