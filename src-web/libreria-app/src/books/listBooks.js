@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import './Books.css';
-import { PATH_BASE, PATH_BOOKS } from '../Constants';
 import ErrorMessage from './ErrorMessage';
 import BookTable from './BookTable';
+import { getBook } from './bookService';
 
 class ListBooks extends Component {
     constructor(props) {
@@ -18,14 +17,20 @@ class ListBooks extends Component {
         this.fetchBooks = this.fetchBooks.bind(this);
     }
     
-    fetchBooks() {
+    async fetchBooks() {
         this.setState({ isLoading: true });
-        axios.get(`${PATH_BASE}${PATH_BOOKS}`)
-            .then(result => this.setState({ 
-                books: result.data, 
-                isLoading: false 
-            }))
-            .catch(error => this.setState({ error }));
+        const { result, error } = await getBook();
+        if (result) {
+            this.setState({
+                books: result.data,
+                isLoading: false
+            });
+        } else {
+            this.setState({
+                isLoading: false,
+                error: error
+            });
+        }
     }
 
     componentDidMount() {
