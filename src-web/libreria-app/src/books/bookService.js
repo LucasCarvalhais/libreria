@@ -3,16 +3,19 @@ import { PATH_BASE, PATH_BOOKS } from '../Constants';
 
 export async function getBook() {
     let result, error;
+    
     try {
         result = await axios.get(`${PATH_BASE}${PATH_BOOKS}`);
     } catch (err) {
         error = err;
     }
+    
     return { result, error };
 }
 
 export async function getBookById(bookId) {
     let success;
+    
     try {
         const response = await axios.get(`${PATH_BASE}${PATH_BOOKS}/${bookId}`);
         success = true;
@@ -21,6 +24,7 @@ export async function getBookById(bookId) {
         success = false
         return { err, success };
     }
+    
 }
 
 export async function saveBook(book) {

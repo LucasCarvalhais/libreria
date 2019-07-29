@@ -16,8 +16,8 @@ class DeleteBook extends Component {
                 edition: undefined,
             },
             successSearch: false,
-            errorSearch: null,
             successDelete: false,
+            errorSearch: null,
             errorDelete: null,
         }
 
@@ -32,44 +32,28 @@ class DeleteBook extends Component {
 
     async handleSearch(event) {
         event.preventDefault();
+
         const bookId = this.state.bookId;
         const { response, err, success } = await getBookById(bookId);
+        
         if (success) {
             this.setState({
                 book: response.data, 
                 successSearch: true,
-                successDelete: false,
-                errorSearch: null,
-                errorDelete: null 
             });
         } else {
-            this.setState({ 
-                book: null,
-                successSearch: false,
-                successDelete: false,
-                errorSearch: err,
-                errorDelete: null, 
-            });
+            this.setState({ errorSearch: err });
         }
     }
 
     async handleDelete() {
         const bookId = this.state.bookId;
         const { success, err } = await deleteBook(bookId);
+        
         if (success) {
-            this.setState({
-                successSearch: false, 
-                successDelete: true,
-                errorSearch: null,
-                errorDelete: null 
-            });
+            this.setState({ successDelete: true });
         } else {
-            this.setState({ 
-                successSearch: false,
-                successDelete: false,
-                errorSearch: null,
-                errorDelete: err 
-            });
+            this.setState({ errorDelete: err });
         }
     }
 
@@ -87,17 +71,30 @@ class DeleteBook extends Component {
             <div>
                 <h1>Deletar el libro</h1>
                 { errorDelete
-                    ? <ErrorMessage className="errorDelete" error={errorDelete} />
+                    ? <ErrorMessage 
+                        className="error-delete" 
+                        error={errorDelete} 
+                    />
                     : successDelete
-                        ? <div className="messageSuccess"><p className="message">SUceso!</p></div>
+                        ? <div className="success-delete-message">
+                            <p className="message">SUceso!</p>
+                        </div>
                         : errorSearch
-                            ? <ErrorMessage className="errorSearch" error={errorSearch} />
+                            ? <ErrorMessage 
+                                className="error-search" 
+                                error={errorSearch} 
+                            />
                             : successSearch
-                                ? <div className="messageDelete">
+                                ? <div className="delete-message">
                                     <p className="message">
                                         Desea remover el libro <em>{book.title}</em>, de <em>{book.author}</em>, cuya descripción es <em>{book.description}</em> y de <em>{book.edition}</em> edición? 
                                     </p>
-                                    <button className="submitButton" onClick={() => this.handleDelete()}>Sí, quiero remover este libro.</button>
+                                    <button 
+                                        className="submit-button" 
+                                        onClick={() => this.handleDelete()}
+                                    >
+                                        Sí, quiero remover este libro.
+                                    </button>
                                 </div>
                                 : <FormSearch
                                     bookId={bookId}
