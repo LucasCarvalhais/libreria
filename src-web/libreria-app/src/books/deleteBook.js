@@ -86,29 +86,24 @@ class DeleteBook extends Component {
         return (
             <div>
                 <h1>Deletar el libro</h1>
-                {!successSearch && 
-                    <FormSearch
-                        bookId={bookId}
-                        handleChange={this.handleChange}
-                        handleSubmit={this.handleSearch}
-                    />
-                }
-                {errorDelete
+                { errorDelete
                     ? <ErrorMessage className="errorDelete" error={errorDelete} />
-                    : successDelete && <div className="messageSuccess"><p className="message">SUceso!</p></div>
-                }
-                {errorSearch
-                    ? <ErrorMessage className="errorSearch" error={errorSearch} />
-                    : successSearch
-                        ? <div className="messageDelete">
-                            <p className="message">
-                                Desea remover el libro <em>{book.title}</em>, de <em>{book.author}</em>, cuya descripción es <em>{book.description}</em> y de <em>{book.edition}</em> edición? 
-                            </p>
-                            <button className="submitButton" onClick={() => this.handleDelete()}>Sí, quiero remover este libro.</button>
-                        </div>
-                        : <div className="message">
-                            <p>Por favor seleciona un código del libro y clica en "Pesquisar".</p>
-                        </div>
+                    : successDelete
+                        ? <div className="messageSuccess"><p className="message">SUceso!</p></div>
+                        : errorSearch
+                            ? <ErrorMessage className="errorSearch" error={errorSearch} />
+                            : successSearch
+                                ? <div className="messageDelete">
+                                    <p className="message">
+                                        Desea remover el libro <em>{book.title}</em>, de <em>{book.author}</em>, cuya descripción es <em>{book.description}</em> y de <em>{book.edition}</em> edición? 
+                                    </p>
+                                    <button className="submitButton" onClick={() => this.handleDelete()}>Sí, quiero remover este libro.</button>
+                                </div>
+                                : <FormSearch
+                                    bookId={bookId}
+                                    handleChange={this.handleChange}
+                                    handleSubmit={this.handleSearch}
+                                />
                 }
             </div>  
         );

@@ -6,6 +6,10 @@ describe('DeleteBook', () => {
     test('should show form to search book', () => {
         const component = shallow(<DeleteBook />);
         expect(component.find('FormSearch')).toHaveLength(1);
+        expect(component.find('.messageDelete')).toHaveLength(0);
+        expect(component.find('.messageSuccess')).toHaveLength(0);
+        expect(component.find('.errorSearch')).toHaveLength(0);
+        expect(component.find('.errorDelete')).toHaveLength(0);
     });
 
     test('should show message to delete after searching', () => {
@@ -15,7 +19,11 @@ describe('DeleteBook', () => {
             errorSearch: null,
             errorDelete: null,
         });
+        expect(component.find('FormSearch')).toHaveLength(0);
         expect(component.find('.messageDelete')).toHaveLength(1);
+        expect(component.find('.messageSuccess')).toHaveLength(0);
+        expect(component.find('.errorSearch')).toHaveLength(0);
+        expect(component.find('.errorDelete')).toHaveLength(0);
     });
 
     test('should call handleDelete after clicking on delete button', () => {
@@ -36,7 +44,11 @@ describe('DeleteBook', () => {
             errorSearch: null,
             errorDelete: null,
         });
+        expect(component.find('FormSearch')).toHaveLength(0);
+        expect(component.find('.messageDelete')).toHaveLength(0);
         expect(component.find('.messageSuccess')).toHaveLength(1);
+        expect(component.find('.errorSearch')).toHaveLength(0);
+        expect(component.find('.errorDelete')).toHaveLength(0);
     });
 
     test('should show error message after searching', () => {
@@ -46,7 +58,11 @@ describe('DeleteBook', () => {
             errorSearch: 'Error',
             errorDelete: null,
         });
+        expect(component.find('FormSearch')).toHaveLength(0);
+        expect(component.find('.messageDelete')).toHaveLength(0);
+        expect(component.find('.messageSuccess')).toHaveLength(0);
         expect(component.find('.errorSearch')).toHaveLength(1);
+        expect(component.find('.errorDelete')).toHaveLength(0);
     });
 
     test('should show error message after deleting', () => {
@@ -56,6 +72,10 @@ describe('DeleteBook', () => {
             errorSearch: null,
             errorDelete: 'Error',
         });
+        expect(component.find('FormSearch')).toHaveLength(0);
+        expect(component.find('.messageDelete')).toHaveLength(0);
+        expect(component.find('.messageSuccess')).toHaveLength(0);
+        expect(component.find('.errorSearch')).toHaveLength(0);
         expect(component.find('.errorDelete')).toHaveLength(1);
     });
 });
