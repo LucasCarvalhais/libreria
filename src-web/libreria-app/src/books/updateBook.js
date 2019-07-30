@@ -40,47 +40,28 @@ class UpdateBook extends Component {
 
     async handleSearch(event) {
         event.preventDefault();
+
         const bookId = this.state.bookId;
-        const { response, err, success } = await getBookById(bookId);
-        if (success) {
-            this.setState({
-                book: response.data, 
-                successSearch: true,
-                successUpdate: false,
-                errorSearch: null,
-                errorUpdate: null 
-            });
-        } else {
-            this.setState({ 
-                book: null,
-                successSearch: false,
-                successSearch: false,
-                errorSearch: err,
-                errorUpdate: null, 
-            });
-        }
+        const { success, result, error } = await getBookById(bookId);
+        
+        this.setState({
+            book: result.data, 
+            successSearch: success,
+            errorSearch: error,
+        });
     }
 
     async handleSubmit(event) {
         event.preventDefault();
+        
         const bookId = this.state.bookId;
         const book = this.state.book;
-        const { success, err } = await updateBook(bookId, book);
-        if (success) {
-            this.setState({
-                successSearch: false, 
-                successUpdate: true,
-                errorSearch: null,
-                errorUpdate: null 
-            });
-        } else {
-            this.setState({ 
-                successSearch: false,
-                successUpdate: false,
-                errorSearch: null,
-                errorUpdate: err, 
-            });
-        }
+        const { success, error } = await updateBook(bookId, book);
+        
+        this.setState({
+            successUpdate: success,
+            errorUpdate: error 
+        });
     }
 
     render() {
@@ -96,28 +77,26 @@ class UpdateBook extends Component {
         return (
             <div>
                 <h1>Atualizar el libro</h1>
-                {!successSearch && 
-                    <FormSearch
-                        bookId={bookId}
-                        handleChange={this.handleChange}
-                        handleSubmit={this.handleSearch}
-                    />
-                }
-                {errorUpdate
+                { errorUpdate
                     ? <ErrorMessage error={errorUpdate} />
-                    : successUpdate && <div className="message">SUceso!</div>
-                }
-                {errorSearch
-                    ? <ErrorMessage error={errorSearch} />
-                    : successSearch
-                        ? <FormBook
-                            book={book}
-                            handleChange={this.handleChange}
-                            handleSubmit={this.handleSubmit}
-                        />
-                        : <div className="message">
-                            <p>Por favor seleciona un código del libro y clica en "Pesquisar".</p>
-                        </div>
+                    : successUpdate
+                        ? <div className="message">SUceso!</div>
+                        : errorSearch
+                            ? <ErrorMessage error={errorSearch} />
+                            : successSearch
+                                ? <FormBook
+                                    book={book}
+                                    handleChange={this.handleChange}
+                                    handleSubmit={this.handleSubmit}
+                                />
+                                : <div> 
+                                    <p>Por favor seleciona un código del libro y clica en "Pesquisar".</p>
+                                    <FormSearch
+                                        bookId={bookId}
+                                        handleChange={this.handleChange}
+                                        handleSubmit={this.handleSearch}
+                                    />
+                                </div>
                 }
             </div>  
         );

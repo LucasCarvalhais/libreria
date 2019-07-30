@@ -34,27 +34,23 @@ class DeleteBook extends Component {
         event.preventDefault();
 
         const bookId = this.state.bookId;
-        const { response, err, success } = await getBookById(bookId);
+        const { success, error, result } = await getBookById(bookId);
         
-        if (success) {
-            this.setState({
-                book: response.data, 
-                successSearch: true,
-            });
-        } else {
-            this.setState({ errorSearch: err });
-        }
+        this.setState({
+            book: result.data,
+            successSearch: success,
+            errorSearch: error
+        });
     }
 
     async handleDelete() {
         const bookId = this.state.bookId;
-        const { success, err } = await deleteBook(bookId);
+        const { success, error } = await deleteBook(bookId);
         
-        if (success) {
-            this.setState({ successDelete: true });
-        } else {
-            this.setState({ errorDelete: err });
-        }
+        this.setState({
+            successDelete: success,
+            errorDelete: error
+        });
     }
 
     render() {

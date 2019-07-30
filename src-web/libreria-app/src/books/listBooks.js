@@ -19,18 +19,14 @@ class ListBooks extends Component {
     
     async fetchBooks() {
         this.setState({ isLoading: true });
+
         const { result, error } = await getBook();
-        if (result) {
-            this.setState({
-                books: result.data,
-                isLoading: false
-            });
-        } else {
-            this.setState({
-                isLoading: false,
-                error: error
-            });
-        }
+        
+        this.setState({
+            books: result.data,
+            isLoading: false,
+            error
+        });
     }
 
     componentDidMount() {

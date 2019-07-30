@@ -32,13 +32,14 @@ class NewBook extends Component {
 
     async handleSubmit(event) {
         event.preventDefault();
+        
         const book = this.state.book;
-        const response = await saveBook(book);
-        if (response === 'success') {
-            this.setState({ success: true });
-        } else {
-            this.setState({ error: response });
-        } 
+        const { success, error } = await saveBook(book);
+        
+        this.setState({ 
+            success,
+            error 
+        });
     }
 
     render() {
