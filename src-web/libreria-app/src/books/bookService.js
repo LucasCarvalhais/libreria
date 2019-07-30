@@ -2,15 +2,19 @@ import axios from 'axios';
 import { PATH_BASE, PATH_BOOKS } from '../Constants';
 
 export async function getBook() {
-    let result, error;
+    let result, error, success;
     
     try {
         result = await axios.get(`${PATH_BASE}${PATH_BOOKS}`);
+        error = null;
+        success = true;
     } catch (err) {
+        result = null;
         error = err;
+        success = false;
     }
     
-    return { result, error };
+    return { result, error, success };
 }
 
 export async function getBookById(bookId) {
