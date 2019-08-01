@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { PATH_BASE, PATH_BOOKS } from '../Constants';
 import ErrorMessage from './ErrorMessage';
 import FormBook from "./FormBook";
 import FormSearch from './FormSearch';
+import { getBookById, updateBook } from './bookService';
 
 class UpdateBook extends Component {
     constructor(props) {
@@ -39,36 +38,30 @@ class UpdateBook extends Component {
         }
     }
 
-    handleSearch(event) {
-        axios.get(`${PATH_BASE}${PATH_BOOKS}/${this.state.bookId}`)
-            .then(response => this.setState({
-                book: response.data, 
-                successSearch: true,
-                successUpdate: false,
-                errorSearch: null,
-                errorUpdate: null }))
-            .catch(error => this.setState({ 
-                book: null,
-                successSearch: false,
-                successSearch: false,
-                errorSearch: error,
-                errorUpdate: null, }));
+    async handleSearch(event) {
         event.preventDefault();
+
+        const bookId = this.state.bookId;
+        const { success, result, error } = await getBookById(bookId);
+        
+        this.setState({
+            book: result.data, 
+            successSearch: success,
+            errorSearch: error,
+        });
     }
 
-    handleSubmit(event) {
-        axios.put(`${PATH_BASE}${PATH_BOOKS}${this.state.bookId}`, this.state.book)
-            .then(() => this.setState({
-                successSearch: false, 
-                successUpdate: true,
-                errorSearch: null,
-                errorUpdate: null }))
-            .catch(error => this.setState({ 
-                successSearch: false,
-                successUpdate: false,
-                errorSearch: null,
-                errorUpdate: error }));
+    async handleSubmit(event) {
         event.preventDefault();
+        
+        const bookId = this.state.bookId;
+        const book = this.state.book;
+        const { success, error } = await updateBook(bookId, book);
+        
+        this.setState({
+            successUpdate: success,
+            errorUpdate: error 
+        });
     }
 
     render() {
@@ -84,28 +77,26 @@ class UpdateBook extends Component {
         return (
             <div>
                 <h1>Atualizar el libro</h1>
-                {!successSearch && 
-                    <FormSearch
-                        bookId={bookId}
-                        handleChange={this.handleChange}
-                        handleSubmit={this.handleSearch}
-                    />
-                }
-                {errorUpdate
+                { errorUpdate
                     ? <ErrorMessage error={errorUpdate} />
-                    : successUpdate && <div className="message">SUceso!</div>
-                }
-                {errorSearch
-                    ? <ErrorMessage error={errorSearch} />
-                    : successSearch
-                        ? <FormBook
-                            book={book}
-                            handleChange={this.handleChange}
-                            handleSubmit={this.handleSubmit}
-                        />
-                        : <div className="message">
-                            <p>Por favor seleciona un código del libro y clica en "Pesquisar".</p>
-                        </div>
+                    : successUpdate
+                        ? <div className="message">SUceso!</div>
+                        : errorSearch
+                            ? <ErrorMessage error={errorSearch} />
+                            : successSearch
+                                ? <FormBook
+                                    book={book}
+                                    handleChange={this.handleChange}
+                                    handleSubmit={this.handleSubmit}
+                                />
+                                : <div> 
+                                    <p>Por favor seleciona un código del libro y clica en "Pesquisar".</p>
+                                    <FormSearch
+                                        bookId={bookId}
+                                        handleChange={this.handleChange}
+                                        handleSubmit={this.handleSearch}
+                                    />
+                                </div>
                 }
             </div>  
         );

@@ -4,13 +4,12 @@ import UpdateBook from '../UpdateBook';
 
 describe('UpdateBook', () => {
     test('should show the form to search book', () => {
-        const component = shallow(<UpdateBook />).setState({
-            successSearch: false,
-            successUpdate: false,
-            errorSearch: null,
-            errorUpdate: null,
-        });
+        const component = shallow(<UpdateBook />);
+        
         expect(component.find('FormSearch')).toHaveLength(1);
+        expect(component.find('FormBook')).toHaveLength(0);
+        expect(component.find('.message')).toHaveLength(0);
+        expect(component.find('ErrorMessage')).toHaveLength(0);
     });
 
     test('should show the form to update book', () => {
@@ -20,7 +19,11 @@ describe('UpdateBook', () => {
             errorSearch: null,
             errorUpdate: null,
         });
+        
+        expect(component.find('FormSearch')).toHaveLength(0);
         expect(component.find('FormBook')).toHaveLength(1);
+        expect(component.find('.message')).toHaveLength(0);
+        expect(component.find('ErrorMessage')).toHaveLength(0);
     });
 
     test('should show the success message', () => {
@@ -30,7 +33,11 @@ describe('UpdateBook', () => {
             errorSearch: null,
             errorUpdate: null,
         });
+
+        expect(component.find('FormSearch')).toHaveLength(0);
+        expect(component.find('FormBook')).toHaveLength(0);
         expect(component.find('.message')).toHaveLength(1);
+        expect(component.find('ErrorMessage')).toHaveLength(0);
     });
 
     test('should show the error message', () => {
@@ -40,6 +47,10 @@ describe('UpdateBook', () => {
             errorSearch: 'Error',
             errorUpdate: null,
         });
+
+        expect(component.find('FormSearch')).toHaveLength(0);
+        expect(component.find('FormBook')).toHaveLength(0);
+        expect(component.find('.message')).toHaveLength(0);
         expect(component.find('ErrorMessage')).toHaveLength(1);
     });
 });

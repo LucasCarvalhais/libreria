@@ -32,7 +32,7 @@ describe('BookTable', () => {
             books={books} 
             isLoading={false}
         />);
-        expect(component.find('tr')).toHaveLength(4);
+        expect(component.find('.row')).toHaveLength(4);
     });
 
     test('should show loading message', () => {
@@ -40,7 +40,7 @@ describe('BookTable', () => {
             books={books} 
             isLoading={true} 
         />);
-        expect(component.find('tr')).toHaveLength(0);
+        expect(component.find('.row')).toHaveLength(0);
         expect(component.find('.loading')).toHaveLength(1);
     });
 });

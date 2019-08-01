@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { PATH_BASE, PATH_BOOKS } from '../Constants';
 import FormSearch from './FormSearch';
 import ErrorMessage from './ErrorMessage';
+import { getBookById, deleteBook } from './bookService';
 
 class DeleteBook extends Component {
     constructor(props) {
@@ -17,8 +16,8 @@ class DeleteBook extends Component {
                 edition: undefined,
             },
             successSearch: false,
-            errorSearch: null,
             successDelete: false,
+            errorSearch: null,
             errorDelete: null,
         }
 
@@ -31,35 +30,27 @@ class DeleteBook extends Component {
         this.setState({ bookId: event.target.value });
     }
 
-    handleSearch(event) {
-        axios.get(`${PATH_BASE}${PATH_BOOKS}/${this.state.bookId}`)
-            .then(response => this.setState({
-                book: response.data, 
-                successSearch: true,
-                successDelete: false,
-                errorSearch: null,
-                errorDelete: null }))
-            .catch(error => this.setState({ 
-                book: null,
-                successSearch: false,
-                successDelete: false,
-                errorSearch: error,
-                errorDelete: null, }));
+    async handleSearch(event) {
         event.preventDefault();
+
+        const bookId = this.state.bookId;
+        const { success, error, result } = await getBookById(bookId);
+        
+        this.setState({
+            book: result.data,
+            successSearch: success,
+            errorSearch: error
+        });
     }
 
-    handleDelete() {
-        axios.delete(`${PATH_BASE}${PATH_BOOKS}${this.state.bookId}`)
-            .then(() => this.setState({
-                successSearch: false, 
-                successDelete: true,
-                errorSearch: null,
-                errorDelete: null }))
-            .catch(error => this.setState({ 
-                successSearch: false,
-                successDelete: false,
-                errorSearch: null,
-                errorDelete: error }));
+    async handleDelete() {
+        const bookId = this.state.bookId;
+        const { success, error } = await deleteBook(bookId);
+        
+        this.setState({
+            successDelete: success,
+            errorDelete: error
+        });
     }
 
     render() {
@@ -75,29 +66,37 @@ class DeleteBook extends Component {
         return (
             <div>
                 <h1>Deletar el libro</h1>
-                {!successSearch && 
-                    <FormSearch
-                        bookId={bookId}
-                        handleChange={this.handleChange}
-                        handleSubmit={this.handleSearch}
+                { errorDelete
+                    ? <ErrorMessage 
+                        className="error-delete" 
+                        error={errorDelete} 
                     />
-                }
-                {errorDelete
-                    ? <ErrorMessage className="errorDelete" error={errorDelete} />
-                    : successDelete && <div className="messageSuccess"><p className="message">SUceso!</p></div>
-                }
-                {errorSearch
-                    ? <ErrorMessage className="errorSearch" error={errorSearch} />
-                    : successSearch
-                        ? <div className="messageDelete">
-                            <p className="message">
-                                Desea remover el libro <em>{book.title}</em>, de <em>{book.author}</em>, cuya descripción es <em>{book.description}</em> y de <em>{book.edition}</em> edición? 
-                            </p>
-                            <button className="submitButton" onClick={() => this.handleDelete()}>Sí, quiero remover este libro.</button>
+                    : successDelete
+                        ? <div className="success-delete-message">
+                            <p className="message">SUceso!</p>
                         </div>
-                        : <div className="message">
-                            <p>Por favor seleciona un código del libro y clica en "Pesquisar".</p>
-                        </div>
+                        : errorSearch
+                            ? <ErrorMessage 
+                                className="error-search" 
+                                error={errorSearch} 
+                            />
+                            : successSearch
+                                ? <div className="delete-message">
+                                    <p className="message">
+                                        Desea remover el libro <em>{book.title}</em>, de <em>{book.author}</em>, cuya descripción es <em>{book.description}</em> y de <em>{book.edition}</em> edición? 
+                                    </p>
+                                    <button 
+                                        className="submit-button" 
+                                        onClick={() => this.handleDelete()}
+                                    >
+                                        Sí, quiero remover este libro.
+                                    </button>
+                                </div>
+                                : <FormSearch
+                                    bookId={bookId}
+                                    handleChange={this.handleChange}
+                                    handleSubmit={this.handleSearch}
+                                />
                 }
             </div>  
         );

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { PATH_BASE, PATH_BOOKS } from '../Constants';
 import ErrorMessage from './ErrorMessage';
 import FormBook from './FormBook';
+import { saveBook } from './bookService';
 import './Books.css';
 
 class NewBook extends Component {
@@ -31,11 +30,16 @@ class NewBook extends Component {
         this.setState({ book });
     }
 
-    handleSubmit(event) {
-        axios.post(`${PATH_BASE}${PATH_BOOKS}`, this.state.book)
-            .then(() => this.setState({ success: true }))
-            .catch(error => this.setState({ error }));
+    async handleSubmit(event) {
         event.preventDefault();
+        
+        const book = this.state.book;
+        const { success, error } = await saveBook(book);
+        
+        this.setState({ 
+            success,
+            error 
+        });
     }
 
     render() {
